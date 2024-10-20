@@ -1,3 +1,4 @@
+-- TODO: Does this even work?
 return {
   "ThePrimeagen/git-worktree.nvim",
   opts = {},

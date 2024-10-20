@@ -1,3 +1,4 @@
+-- TODO: Handle horrible background task when not in git repo
 return {
   "topaxi/gh-actions.nvim",
   keys = {
