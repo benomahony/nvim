@@ -4,7 +4,7 @@ return {
 
   opts = {
     size = 15,
-    open_mapping = [[\]],
+    open_mapping = [[\\]],
     hide_numbers = true,
     shade_filetypes = {},
     shade_terminals = true,
