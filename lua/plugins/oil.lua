@@ -9,6 +9,9 @@ return {
     view_options = {
       show_hidden = true,
       natural_order = true,
+      is_always_hidden = function(name, _)
+        return name == ".." or name == ".git"
+      end,
     },
     float = {
       padding = 2,
@@ -16,6 +19,8 @@ return {
       max_height = 0,
     },
     win_options = {
+      signcolumn = "yes:2",
+      statuscolumn = "",
       wrap = true,
       winblend = 0,
     },
