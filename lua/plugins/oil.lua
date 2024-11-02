@@ -19,7 +19,7 @@ return {
       max_height = 0,
     },
     win_options = {
-      signcolumn = "yes:2",
+      signcolumn = "yes",
       statuscolumn = "",
       wrap = true,
       winblend = 0,
