@@ -1,8 +1,13 @@
+-- Making :W case insensitive because I have fat fingers
+vim.api.nvim_create_user_command("W", "w", { bang = true })
+vim.api.nvim_create_user_command("Wq", "wq", { bang = true })
+-- Nice oily navigation
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
-vim.keymap.set("n", "<leader>wt", require("wezterm").switch_tab.index)
+-- Quick file search 
 vim.keymap.set("n", "<leader><leader>", function()
   require("telescope").extensions.smart_open.smart_open()
 end, { noremap = true, silent = true })
+
 vim.keymap.set("n", "<leader>k", '<cmd>lua require("kubectl").toggle()<cr>', { noremap = true, silent = true })
 local function hover_with_window()
   local width = math.floor(vim.o.columns * 0.8)
