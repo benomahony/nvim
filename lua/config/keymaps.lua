@@ -3,7 +3,7 @@ vim.keymap.set("n", "<leader>wt", require("wezterm").switch_tab.index)
 vim.keymap.set("n", "<leader><leader>", function()
   require("telescope").extensions.smart_open.smart_open()
 end, { noremap = true, silent = true })
-
+vim.keymap.set("n", "<leader>k", '<cmd>lua require("kubectl").toggle()<cr>', { noremap = true, silent = true })
 local function hover_with_window()
   local width = math.floor(vim.o.columns * 0.8)
   local height = math.floor(vim.o.rows * 0.3)
