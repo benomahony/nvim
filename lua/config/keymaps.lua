@@ -1,6 +1,7 @@
 -- Making :W case insensitive because I have fat fingers
 vim.api.nvim_create_user_command("W", "w", { bang = true })
 vim.api.nvim_create_user_command("Wq", "wq", { bang = true })
+vim.api.nvim_create_user_command("Wqa", "wqa", { bang = true })
 -- Nice oily navigation
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 -- Quick file search 
