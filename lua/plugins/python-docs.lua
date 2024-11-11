@@ -1,4 +1,3 @@
--- TODO: Add a nice keymap, maybe <leader>sp?
 -- TODO: Is this actually any good?
 return {
   "syphar/python-docs.nvim",
