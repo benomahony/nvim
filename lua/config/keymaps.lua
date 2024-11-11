@@ -21,4 +21,3 @@ local function hover_with_window()
 end
 
 vim.keymap.set("n", "K", hover_with_window)
-vim.keymap.set("n", "<Leader>cD", "<cmd>Telescope python_docs<CR>", { desc = "Search for python_docs" })
