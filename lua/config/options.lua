@@ -1,1 +1,1 @@
-vim.g.lazyvim_python_lsp = "ruff_lsp"
+vim.g.lazyvim_python_lsp = "ruff"
