@@ -11,6 +11,7 @@ vim.keymap.set("n", "<leader><leader>", function()
 end, { noremap = true, silent = true })
 
 vim.keymap.set("n", "<leader>k", '<cmd>lua require("kubectl").toggle()<cr>', { noremap = true, silent = true })
+
 local function hover_with_window()
   local width = math.floor(vim.o.columns * 0.8)
   local height = math.floor(vim.o.rows * 0.3)
@@ -19,5 +20,8 @@ local function hover_with_window()
     vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded", max_width = width, max_height = height })
   vim.lsp.buf.hover()
 end
-
 vim.keymap.set("n", "K", hover_with_window)
+
+-- "The greatest remap ever" Paste and delete while retaining what you pasted
+vim.keymap.set("x", "<leader>p", [["_dP]])
+vim.keymap.set("n", "<leader>x", "Q !!$SHELL<CR>", { noremap = true })
