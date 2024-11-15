@@ -24,4 +24,4 @@ vim.keymap.set("n", "K", hover_with_window)
 
 -- "The greatest remap ever" Paste and delete while retaining what you pasted
 vim.keymap.set("x", "<leader>p", [["_dP]])
-vim.keymap.set("n", "<leader>x", "Q !!$SHELL<CR>", { noremap = true })
+vim.keymap.set("n", "<leader>X", "Q !!$SHELL<CR>", { noremap = true })
