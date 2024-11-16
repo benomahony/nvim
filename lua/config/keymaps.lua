@@ -22,6 +22,35 @@ local function hover_with_window()
 end
 vim.keymap.set("n", "K", hover_with_window)
 
--- "The greatest remap ever" Paste and delete while retaining what you pasted
-vim.keymap.set("x", "<leader>p", [["_dP]])
-vim.keymap.set("n", "<leader>X", "Q !!$SHELL<CR>", { noremap = true })
+vim.keymap.set("n", "u<leader>X", "Q !!$SHELL<CR>", { noremap = true })
+
+
+-- Move lines in normal, visual, and insert modes
+vim.keymap.set("n", "<A-j>", ":m .+1<CR>==")
+vim.keymap.set("n", "<A-k>", ":m .-2<CR>==")
+vim.keymap.set("i", "<A-j>", "<Esc>:m .+1<CR>==gi")
+vim.keymap.set("i", "<A-k>", "<Esc>:m .-2<CR>==gi")
+vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv")
+
+-- Function to delete to void and paste
+local function delete_void_paste(type)
+  if type == "line" then
+    vim.cmd('normal! "_ddp')
+  else
+    vim.cmd([[normal! `[v`]"_dp]])
+  end
+end
+
+-- Make the function available globally
+_G.delete_void_paste = delete_void_paste
+
+-- Set up the operator mapping
+vim.keymap.set("n", "m", function()
+  vim.o.operatorfunc = "v:lua.delete_void_paste"
+  return "g@"
+end, { expr = true })
+
+vim.keymap.set("v", "m", '"_dp')
+vim.keymap.set("n", "mm", '"_ddp')
+
