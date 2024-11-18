@@ -5,3 +5,5 @@ vim.opt.sidescrolloff = 10
 
 vim.opt.inccommand = "split"
 vim.opt.incsearch = true
+
+vim.g.snack_terminal = 'kitty'
