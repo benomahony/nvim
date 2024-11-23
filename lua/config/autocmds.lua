@@ -18,7 +18,29 @@ vim.api.nvim_create_autocmd("InsertLeave", {
     if vim.bo.modified then
       vim.defer_fn(function()
         vim.cmd("silent! write")
-      end, 200)
+      end, 500)
     end
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+  pattern = "*",
+  callback = function()
+    if not vim.bo.modified then
+      vim.cmd("checktime")
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "InsertEnter" }, {
+  pattern = "*",
+  callback = function()
+    vim.opt.relativenumber = false
+  end,
+})
+vim.api.nvim_create_autocmd({ "InsertLeave" }, {
+  pattern = "*",
+  callback = function()
+    vim.opt.relativenumber = true
   end,
 })
