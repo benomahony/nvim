@@ -8,7 +8,6 @@ vim.opt.incsearch = true
 
 vim.g.snack_terminal = "kitty"
 
-vim.diagnostic.config({ virtual_text = false })
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function()
     vim.schedule(function()
