@@ -10,7 +10,7 @@ vim.keymap.set("n", "<leader><leader>", function()
   require("telescope").extensions.smart_open.smart_open()
 end, { noremap = true, silent = true })
 
-vim.keymap.set("n", "<leader>k", '<cmd>lua require("kubectl").toggle()<cr>', { noremap = true, silent = true })
+-- vim.keymap.set("n", "<leader>k", "<cmd>lua require("kubectl").toggle()<cr>", { noremap = true, silent = true })
 
 local function hover_with_window()
   local width = math.floor(vim.o.columns * 0.8)
@@ -22,7 +22,7 @@ local function hover_with_window()
 end
 vim.keymap.set("n", "K", hover_with_window)
 
-vim.keymap.set("n", "u<leader>X", "Q !!$SHELL<CR>", { noremap = true })
+vim.keymap.set("n", "<leader>X", "Q !!$SHELL<CR>", { noremap = true })
 
 -- Move lines in normal, visual, and insert modes
 vim.keymap.set("n", "<A-j>", ":m .+1<CR>==")
@@ -54,13 +54,13 @@ vim.keymap.set("v", "m", '"_dp')
 vim.keymap.set("n", "mm", '"_ddp')
 
 -- movement
-vim.keymap.set({ "n", "v" }, "<C-k>", "<cmd>Treewalker Up<cr>", { silent = true })
-vim.keymap.set({ "n", "v" }, "<C-j>", "<cmd>Treewalker Down<cr>", { silent = true })
-vim.keymap.set({ "n", "v" }, "<C-l>", "<cmd>Treewalker Right<cr>", { silent = true })
-vim.keymap.set({ "n", "v" }, "<C-h>", "<cmd>Treewalker Left<cr>", { silent = true })
+vim.keymap.set({ "n", "v" }, "<C-k>", "<cmd>Treewalker Up<cr>", { silent = true, desc = "Walk tree Up" })
+vim.keymap.set({ "n", "v" }, "<C-j>", "<cmd>Treewalker Down<cr>", { silent = true, desc = "Walk tree Down" })
+vim.keymap.set({ "n", "v" }, "<C-l>", "<cmd>Treewalker Right<cr>", { silent = true, desc = "Walk tree Right" })
+vim.keymap.set({ "n", "v" }, "<C-h>", "<cmd>Treewalker Left<cr>", { silent = true, desc = "Walk tree Left" })
 
 -- swapping
-vim.keymap.set("n", "<C-S-j>", "<cmd>Treewalker SwapDown<cr>", { silent = true })
-vim.keymap.set("n", "<C-S-k>", "<cmd>Treewalker SwapUp<cr>", { silent = true })
-vim.keymap.set("n", "<C-S-l>", "<cmd>Treewalker SwapRight<CR>", { silent = true })
-vim.keymap.set("n", "<C-S-h>", "<cmd>Treewalker SwapLeft<CR>", { silent = true })
+vim.keymap.set("n", "<C-S-j>", "<cmd>Treewalker SwapDown<cr>", { silent = true, desc = "Swap tree Down" })
+vim.keymap.set("n", "<C-S-k>", "<cmd>Treewalker SwapUp<cr>", { silent = true, desc = "Swap tree Up" })
+vim.keymap.set("n", "<C-S-l>", "<cmd>Treewalker SwapRight<CR>", { silent = true, desc = "Swap tree Right" })
+vim.keymap.set("n", "<C-S-h>", "<cmd>Treewalker SwapLeft<CR>", { silent = true, desc = "Swap tree Left" })
