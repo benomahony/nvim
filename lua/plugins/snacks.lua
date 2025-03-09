@@ -59,9 +59,6 @@ return {
           { section = "startup" },
         },
       },
-      picker = {
-        -- UV-related configuration will be added below
-      },
     }
 
     -- Initialize Snacks with our configuration
@@ -144,12 +141,11 @@ return {
     Snacks.picker.sources.uv_commands = {
       finder = function()
         return {
-          { text = "uv init", desc = "Initialize a new project" },
-          { text = "uv venv", desc = "Create a new virtual environment" },
+          { text = "uv run [current_file]", desc = "Run current file with Python", is_run_current = true },
           { text = "uv add [package]", desc = "Install a package" },
+          { text = "uv sync", desc = "Sync packages from lockfile" },
           { text = "uv remove [package]", desc = "Remove a package" },
-          { text = "uv lock", desc = "Generate a lockfile" },
-          { text = "uv run python", desc = "Run current file with Python", is_run_current = true },
+          { text = "uv init", desc = "Initialize a new project" },
         }
       end,
       format = function(item)
@@ -163,34 +159,45 @@ return {
             -- Special handling for running the current file
             local current_file = vim.fn.expand("%:p")
             if current_file and current_file ~= "" then
-              -- Create a scratch buffer for output
-              vim.cmd("new")
-              vim.api.nvim_buf_set_option(0, "buftype", "nofile")
-              vim.api.nvim_buf_set_option(0, "bufhidden", "wipe")
-              vim.api.nvim_buf_set_option(0, "swapfile", false)
-              vim.api.nvim_buf_set_name(0, "Python Output: " .. vim.fn.expand("%:t"))
+              vim.notify("Running: " .. vim.fn.expand("%:t"), vim.log.levels.INFO)
 
-              -- Run python on the current file and capture output
+              -- Run python on the current file and capture output to notifications
               vim.fn.jobstart("uv run python " .. vim.fn.shellescape(current_file), {
                 on_stdout = function(_, data)
-                  if data then
-                    vim.schedule(function()
-                      vim.api.nvim_buf_set_lines(0, -1, -1, false, data)
-                    end)
+                  if data and #data > 1 then
+                    local output = table.concat(data, "\n")
+                    if output and output:match("%S") then
+                      vim.notify(output, vim.log.levels.INFO, {
+                        title = "Python Output",
+                        timeout = 10000,
+                      })
+                    end
                   end
                 end,
                 on_stderr = function(_, data)
-                  if data then
-                    vim.schedule(function()
-                      vim.api.nvim_buf_set_lines(0, -1, -1, false, data)
-                    end)
+                  if data and #data > 1 then
+                    local output = table.concat(data, "\n")
+                    if output and output:match("%S") then
+                      vim.notify(output, vim.log.levels.ERROR, {
+                        title = "Python Error",
+                        timeout = 10000,
+                      })
+                    end
                   end
                 end,
-                on_exit = function(_, _)
-                  vim.schedule(function()
-                    vim.api.nvim_buf_set_lines(0, -1, -1, false, { "", "--- Program finished ---" })
-                  end)
+                on_exit = function(_, exit_code)
+                  if exit_code == 0 then
+                    vim.notify("Program execution completed successfully", vim.log.levels.INFO, {
+                      title = "Python Execution",
+                    })
+                  else
+                    vim.notify("Program execution failed with exit code: " .. exit_code, vim.log.levels.ERROR, {
+                      title = "Python Execution",
+                    })
+                  end
                 end,
+                stdout_buffered = true,
+                stderr_buffered = true,
               })
             else
               vim.notify("No file is open", vim.log.levels.WARN)
@@ -235,18 +242,6 @@ return {
           })
         end
 
-        -- Check for other common venv directories
-        local common_venv_dirs = { "venv", "env" }
-        for _, dir in ipairs(common_venv_dirs) do
-          if vim.fn.isdirectory(dir) == 1 then
-            table.insert(venvs, {
-              text = dir,
-              path = vim.fn.getcwd() .. "/" .. dir,
-              is_current = vim.env.VIRTUAL_ENV and vim.env.VIRTUAL_ENV:match(dir .. "$") ~= nil,
-            })
-          end
-        end
-
         if #venvs == 0 then
           table.insert(venvs, {
             text = "Create new virtual environment (uv venv)",
@@ -261,7 +256,7 @@ return {
           return { { "+ " .. item.text } }
         else
           local icon = item.is_current and "● " or "○ "
-          return { { icon .. item.text } }
+          return { { icon .. item.text .. " (Activate)" } }
         end
       end,
       confirm = function(picker, item)
@@ -292,27 +287,5 @@ return {
     )
 
     vim.api.nvim_set_keymap("n", "<leader>ui", "<cmd>UVinit<CR>", { noremap = true, silent = true })
-
-    -- Add UV commands to dashboard
-    local dashboard_keys = {
-      { icon = "󰌠 ", key = "u", desc = "UV Commands", action = "lua Snacks.picker.pick('uv_commands')" },
-      { icon = "󰆧 ", key = "v", desc = "UV Environment", action = "lua Snacks.picker.pick('uv_venv')" },
-      { icon = "󰰱 ", key = "i", desc = "UV Init Project", action = "UVinit" },
-    }
-
-    -- Update the dashboard keys after Snacks is initialized
-    vim.schedule(function()
-      if Snacks.dashboard and Snacks.dashboard.preset and Snacks.dashboard.preset.keys then
-        -- Add UV keys to the dashboard
-        for _, key in ipairs(dashboard_keys) do
-          table.insert(Snacks.dashboard.preset.keys, key)
-        end
-
-        -- Force dashboard redraw if it's currently displayed
-        if vim.bo.filetype == "dashboard" then
-          vim.cmd("dashboard")
-        end
-      end
-    end)
   end,
 }
