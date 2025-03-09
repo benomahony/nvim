@@ -3,7 +3,7 @@
 
 require("conform").setup({
   format_on_save = {
-    timeout_ms = 200,
+    timeout_ms = 400,
     lsp_format = "fallback",
   },
 })
