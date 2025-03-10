@@ -6,7 +6,7 @@ vim.opt.sidescrolloff = 10
 vim.opt.inccommand = "split"
 vim.opt.incsearch = true
 
-vim.g.snack_terminal = "kitty"
+vim.g.snack_terminal = "ghostty"
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function()
