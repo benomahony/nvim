@@ -1,6 +1,13 @@
 -- Autocmds are automatically loaded on the VeryLazy event
 -- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
 
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function()
+    vim.schedule(function()
+      vim.cmd("silent! lua vim.diagnostic.config({ virtual_text = false })")
+    end)
+  end,
+})
 require("conform").setup({
   format_on_save = {
     timeout_ms = 400,
@@ -18,7 +25,7 @@ vim.api.nvim_create_autocmd("InsertLeave", {
     if vim.bo.modified then
       vim.defer_fn(function()
         vim.cmd("silent! write")
-      end, 500)
+      end, 100)
     end
   end,
 })
