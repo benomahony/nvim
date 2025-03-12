@@ -7,11 +7,3 @@ vim.opt.inccommand = "split"
 vim.opt.incsearch = true
 
 vim.g.snack_terminal = "ghostty"
-
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function()
-    vim.schedule(function()
-      vim.diagnostic.config({ virtual_text = false })
-    end)
-  end,
-})
