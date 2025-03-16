@@ -13,6 +13,14 @@ require("conform").setup({
     timeout_ms = 400,
     lsp_format = "fallback",
   },
+  formatters_by_ft = {
+    python = { "ruff_fix", "pyupgrade" },
+  },
+  formatters = {
+    pyupgrade = {
+      prepend_args = { "--py311-plus" },
+    },
+  },
 })
 
 vim.api.nvim_create_autocmd("InsertEnter", { pattern = "*", command = "normal! zz" })
