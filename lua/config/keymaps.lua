@@ -67,5 +67,7 @@ vim.keymap.set("n", "<C-S-k>", "<cmd>Treewalker SwapUp<cr>", { silent = true, de
 vim.keymap.set("n", "<C-S-l>", "<cmd>Treewalker SwapRight<CR>", { silent = true, desc = "Swap tree Right" })
 vim.keymap.set("n", "<C-S-h>", "<cmd>Treewalker SwapLeft<CR>", { silent = true, desc = "Swap tree Left" })
 
--- select whole file
-vim.keymap.set("n", "<C-a>", "ggVG", { noremap = true })
+-- yank, overwrite and delete whole file
+vim.keymap.set("n", "<C-a>", "ggVGy", { noremap = true })
+vim.keymap.set("n", "<C-s>", "ggVGp", { noremap = true })
+vim.keymap.set("n", "<C-d>", "ggVGD", { noremap = true })
