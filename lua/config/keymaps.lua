@@ -24,8 +24,6 @@ local function hover_with_window()
 end
 vim.keymap.set("n", "K", hover_with_window)
 
-vim.keymap.set("n", "<leader>X", "Q !!$SHELL<CR>", { noremap = true })
-
 -- Move lines in normal, visual, and insert modes
 vim.keymap.set("n", "<A-j>", ":m .+1<CR>==")
 vim.keymap.set("n", "<A-k>", ":m .-2<CR>==")
