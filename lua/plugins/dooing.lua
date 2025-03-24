@@ -1,8 +1,9 @@
 return {
   "atiladefreitas/dooing",
   config = function()
-    require("dooing").setup({
-      -- your custom config here (optional)
-    })
+    require("dooing").setup({})
   end,
+  keys = {
+    { "<leader>T", "<cmd>Dooing<cr>", desc = "Open (To) Dooing" },
+  },
 }
