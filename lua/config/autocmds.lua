@@ -18,7 +18,8 @@ require("conform").setup({
   },
   formatters = {
     pyupgrade = {
-      prepend_args = { "--py311-plus" },
+      command = "pyupgrade",
+      prepend_args = { "--py313-plus" },
     },
   },
 })
