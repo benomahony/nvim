@@ -15,6 +15,7 @@ return {
       words = { enabled = true },
       dashboard = {
         preset = {
+
           ---@type snacks.dashboard.Item[]|fun(items:snacks.dashboard.Item[]):snacks.dashboard.Item[]?
           keys = {
             { icon = ".", key = ".", desc = "Open at root", action = ":Oil" },
@@ -22,6 +23,7 @@ return {
             { icon = "📁", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
             { icon = "🔍", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
             { icon = "🔙", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+            { icon = "", key = "b", desc = "Browse Github", action = ":lua Snacks.gitbrowse.open()" },
             {
               icon = "",
               key = "c",
