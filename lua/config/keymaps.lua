@@ -12,18 +12,6 @@ vim.keymap.set("n", "<leader><leader>", function()
   require("telescope").extensions.smart_open.smart_open()
 end, { noremap = true, silent = true })
 
--- vim.keymap.set("n", "<leader>k", "<cmd>lua require("kubectl").toggle()<cr>", { noremap = true, silent = true })
-
-local function hover_with_window()
-  local width = math.floor(vim.o.columns * 0.8)
-  local height = math.floor(vim.o.rows * 0.3)
-
-  vim.lsp.handlers["tectDocument/hover"] =
-    vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded", max_width = width, max_height = height })
-  vim.lsp.buf.hover()
-end
-vim.keymap.set("n", "K", hover_with_window)
-
 -- Move lines in normal, visual, and insert modes
 vim.keymap.set("n", "<A-j>", ":m .+1<CR>==")
 vim.keymap.set("n", "<A-k>", ":m .-2<CR>==")
@@ -69,3 +57,22 @@ vim.keymap.set("n", "<C-S-h>", "<cmd>Treewalker SwapLeft<CR>", { silent = true, 
 vim.keymap.set("n", "<C-a>", "ggVGy", { noremap = true })
 vim.keymap.set("n", "<C-s>", "ggVGp", { noremap = true })
 vim.keymap.set("n", "<C-d>", "ggVGD", { noremap = true })
+
+vim.keymap.set("n", "<leader>xu", function()
+  local file = vim.fn.expand("%:p")
+  vim.cmd("!pyupgrade --py313-plus " .. file)
+end, { desc = "Run pyupgrade" })
+
+vim.keymap.set("n", "<leader>xp", function()
+  require("snacks").terminal.toggle("pre-commit run", {
+    auto_close = false,
+    win = {
+      floating = true,
+      width = 0.8,
+      height = 0.7,
+    },
+  })
+end, { desc = "Run precommit" })
+
+-- Remove LazyVim's <leader>: keymap
+vim.keymap.del("n", "<leader>:")
