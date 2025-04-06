@@ -60,9 +60,9 @@ return {
 
       return {
         keymap = {
-          preset = "enter", -- Ensure the preset is set to "enter"
-          ["<Tab>"] = { "select_and_accept", "fallback" }, -- Explicit Tab mapping for completions
-          ["<CR>"] = { "select_and_accept" }, -- Explicit Enter mapping
+          preset = "enter",
+          ["<Tab>"] = { "select_and_accept", "fallback" },
+          ["<CR>"] = { "select_and_accept" },
           ["<C-Space>"] = blink_map,
         },
         completion = {
