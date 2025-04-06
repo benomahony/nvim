@@ -16,10 +16,10 @@ return {
         notify = "warn",
 
         virtualtext = {
-          auto_trigger_ft = { "*" }, -- Enable for all filetypes
+          auto_trigger_ft = { "lua", "python", "markdown", "rust", "html", "yaml", "toml" },
           auto_trigger_ignore_ft = { "TelescopePrompt", "text", "help" },
           keymap = {
-            accept = "<Tab>",
+            accept = "<S-Tab>",
             accept_n_lines = "<C-n>",
             dismiss = "<C-e>",
           },
@@ -38,7 +38,7 @@ return {
             model = "qwen2.5-coder",
             stream = true,
             optional = {
-              max_tokens = 56,
+              max_tokens = 1024,
               top_p = 0.9,
             },
           },
@@ -60,6 +60,9 @@ return {
 
       return {
         keymap = {
+          preset = "enter", -- Ensure the preset is set to "enter"
+          ["<Tab>"] = { "select_and_accept", "fallback" }, -- Explicit Tab mapping for completions
+          ["<CR>"] = { "select_and_accept" }, -- Explicit Enter mapping
           ["<C-Space>"] = blink_map,
         },
         completion = {
