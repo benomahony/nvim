@@ -47,7 +47,6 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHo
     end
   end,
 })
-
 vim.api.nvim_create_autocmd({ "InsertEnter" }, {
   pattern = "*",
   callback = function()
@@ -66,5 +65,12 @@ vim.api.nvim_create_autocmd("User", {
     if event.data.actions.type == "move" then
       Snacks.rename.on_rename_file(event.data.actions.src_url, event.data.actions.dest_url)
     end
+  end,
+})
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    vim.api.nvim_set_hl(0, "Comment", {
+      italic = true,
+    })
   end,
 })

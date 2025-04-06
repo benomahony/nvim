@@ -74,5 +74,6 @@ vim.keymap.set("n", "<leader>xp", function()
   })
 end, { desc = "Run precommit" })
 
--- Remove LazyVim's <leader>: keymap
 vim.keymap.del("n", "<leader>:")
+
+vim.keymap.set("n", "<leader>ac", ":CodeCompanionChat<CR>", { desc = "Start ai chat" })

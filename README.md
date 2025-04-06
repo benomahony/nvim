@@ -1,4 +1,6 @@
-# 💤 LazyVim
+# Benomahony Neovim Config
 
-A starter template for [LazyVim](https://github.com/LazyVim/LazyVim).
-Refer to the [documentation](https://lazyvim.github.io/installation) to get started.
+Config for [LazyVim](https://github.com/LazyVim/LazyVim).
+[documentation](https://lazyvim.github.io/installation)
+
+Why is autocompletion not working?
