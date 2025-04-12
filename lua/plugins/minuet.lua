@@ -19,7 +19,7 @@ return {
           auto_trigger_ft = { "lua", "python", "markdown", "rust", "html", "yaml", "toml" },
           auto_trigger_ignore_ft = { "TelescopePrompt", "text", "help" },
           keymap = {
-            accept = "<S-Tab>",
+            accept = "<C-w>",
             accept_n_lines = "<C-n>",
             dismiss = "<C-e>",
           },
@@ -51,19 +51,11 @@ return {
     "Saghen/blink.cmp",
     dependencies = { "milanglacier/minuet-ai.nvim" },
     opts = function()
-      local has_minuet, minuet = pcall(require, "minuet")
-
-      local blink_map = nil
-      if has_minuet then
-        blink_map = minuet.make_blink_map()
-      end
-
       return {
         keymap = {
           preset = "enter",
           ["<Tab>"] = { "select_and_accept", "fallback" },
-          ["<CR>"] = { "select_and_accept" },
-          ["<C-Space>"] = blink_map,
+          ["<CR>"] = { "select_and_accept", "fallback" },
         },
         completion = {
           trigger = { prefetch_on_insert = false },
