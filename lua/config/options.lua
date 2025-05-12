@@ -7,3 +7,5 @@ vim.opt.inccommand = "split"
 vim.opt.incsearch = true
 
 vim.g.snack_terminal = "ghostty"
+
+vim.opt_local.colorcolumn = "120"

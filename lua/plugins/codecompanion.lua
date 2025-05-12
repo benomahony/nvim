@@ -6,9 +6,12 @@ return {
   },
   opts = {
     adapters = {
-      ollama = function()
+      ollama_qwen3_32b = function()
         return require("codecompanion.adapters").extend("ollama", {
           schema = {
+            model = {
+              default = "qwen3:32b",
+            },
             num_ctx = {
               default = 20000,
             },
@@ -18,13 +21,13 @@ return {
     },
     strategies = {
       chat = {
-        adapter = "ollama",
+        adapter = "ollama_qwen3_32b",
       },
       inline = {
-        adapter = "ollama",
+        adapter = "ollama_qwen3_32b",
       },
-      command = {
-        adapter = "ollama",
+      cmd = {
+        adapter = "ollama_qwen3_32b",
       },
     },
     display = {

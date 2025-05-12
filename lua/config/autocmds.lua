@@ -10,11 +10,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 require("conform").setup({
   format_on_save = {
-    timeout_ms = 400,
     lsp_format = "fallback",
   },
+  format_on_paste = true,
   formatters_by_ft = {
-    python = { "ruff_fix", "pyupgrade" },
+    python = { "pyupgrade", "ruff_fix" },
   },
   formatters = {
     pyupgrade = {
@@ -34,7 +34,7 @@ vim.api.nvim_create_autocmd("InsertLeave", {
     if vim.bo.modified then
       vim.defer_fn(function()
         vim.cmd("silent! write")
-      end, 100)
+      end, 1200)
     end
   end,
 })
