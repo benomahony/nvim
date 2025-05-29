@@ -12,6 +12,14 @@ vim.keymap.set("n", "<leader><leader>", function()
   require("telescope").extensions.smart_open.smart_open()
 end, { noremap = true, silent = true })
 
+-- Split lines on character
+vim.keymap.set("n", "<leader>j", function()
+  local char = vim.fn.input("Split on character: ")
+  if char ~= "" then
+    vim.cmd("s/" .. char .. "/" .. char .. "\\r/g")
+  end
+end, { desc = "Split line on character" })
+
 -- Move lines in normal, visual, and insert modes
 vim.keymap.set("n", "<A-j>", ":m .+1<CR>==")
 vim.keymap.set("n", "<A-k>", ":m .-2<CR>==")
