@@ -65,10 +65,10 @@ vim.keymap.set({ "n", "v" }, "<M-S-l>", "<cmd>Treewalker Right<cr>", { silent = 
 vim.keymap.set({ "n", "v" }, "<M-S-h>", "<cmd>Treewalker Left<cr>", { silent = true, desc = "Walk tree Left" })
 
 -- Swap with Treewalker
-vim.keymap.set("n", "<leader><D-S-j>", "<cmd>Treewalker SwapDown<cr>", { silent = true, desc = "Swap tree Down" })
-vim.keymap.set("n", "<leader><D-S-l>", "<cmd>Treewalker SwapRight<CR>", { silent = true, desc = "Swap tree Right" })
-vim.keymap.set("n", "<leader><D-S-h>", "<cmd>Treewalker SwapLeft<CR>", { silent = true, desc = "Swap tree Left" })
-vim.keymap.set("n", "<leader><D-S-k>", "<cmd>Treewalker SwapUp<cr>", { silent = true, desc = "Swap tree Up" })
+vim.keymap.set("n", "<D-S-j>", "<cmd>Treewalker SwapDown<cr>", { silent = true, desc = "Swap tree Down" })
+vim.keymap.set("n", "<D-S-l>", "<cmd>Treewalker SwapRight<CR>", { silent = true, desc = "Swap tree Right" })
+vim.keymap.set("n", "<D-S-h>", "<cmd>Treewalker SwapLeft<CR>", { silent = true, desc = "Swap tree Left" })
+vim.keymap.set("n", "<D-S-k>", "<cmd>Treewalker SwapUp<cr>", { silent = true, desc = "Swap tree Up" })
 
 -- yank, overwrite and delete whole file
 vim.keymap.set("n", "<C-a>", "ggVGy", { noremap = true })
