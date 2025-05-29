@@ -9,24 +9,25 @@ vim.api.nvim_create_user_command("WQA", "wqa", { bang = true })
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 -- Quick file search
 vim.keymap.set("n", "<leader><leader>", function()
-  require("telescope").extensions.smart_open.smart_open()
+  require("snacks").picker.files()
 end, { noremap = true, silent = true })
 
 -- Split lines on character
 vim.keymap.set("n", "<leader>j", function()
   local char = vim.fn.input("Split on character: ")
   if char ~= "" then
-    vim.cmd("s/" .. char .. "/" .. char .. "\\r/g")
+    local escaped = vim.fn.escape(char, "/\\")
+    vim.cmd("s/" .. escaped .. "/" .. escaped .. "\\r/g")
   end
 end, { desc = "Split line on character" })
 
--- Move lines in normal, visual, and insert modes
-vim.keymap.set("n", "<A-j>", ":m .+1<CR>==")
-vim.keymap.set("n", "<A-k>", ":m .-2<CR>==")
-vim.keymap.set("i", "<A-j>", "<Esc>:m .+1<CR>==gi")
-vim.keymap.set("i", "<A-k>", "<Esc>:m .-2<CR>==gi")
-vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv")
+vim.keymap.set("v", "<leader>j", function()
+  local char = vim.fn.input("Split on character: ")
+  if char ~= "" then
+    local escaped = vim.fn.escape(char, "/\\")
+    vim.cmd("'<,'>s/" .. escaped .. "/" .. escaped .. "\\r/g")
+  end
+end, { desc = "Split selection on character" })
 
 -- Function to delete to void and paste
 local function delete_void_paste(type)
@@ -49,27 +50,30 @@ end, { expr = true })
 vim.keymap.set("v", "m", '"_dp')
 vim.keymap.set("n", "mm", '"_ddp')
 
--- movement
-vim.keymap.set({ "n", "v" }, "<C-k>", "<cmd>Treewalker Up<cr>", { silent = true, desc = "Walk tree Up" })
-vim.keymap.set({ "n", "v" }, "<C-j>", "<cmd>Treewalker Down<cr>", { silent = true, desc = "Walk tree Down" })
-vim.keymap.set({ "n", "v" }, "<C-l>", "<cmd>Treewalker Right<cr>", { silent = true, desc = "Walk tree Right" })
-vim.keymap.set({ "n", "v" }, "<C-h>", "<cmd>Treewalker Left<cr>", { silent = true, desc = "Walk tree Left" })
+-- Move lines in normal, visual, and insert modes
+vim.keymap.set("n", "<M-j>", ":m .+1<CR>==")
+vim.keymap.set("n", "<M-k>", ":m .-2<CR>==")
+vim.keymap.set("i", "<M-j>", "<Esc>:m .+1<CR>==gi")
+vim.keymap.set("i", "<M-k>", "<Esc>:m .-2<CR>==gi")
+vim.keymap.set("v", "<M-j>", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "<M-k>", ":m '<-2<CR>gv=gv")
 
--- swapping
-vim.keymap.set("n", "<C-S-j>", "<cmd>Treewalker SwapDown<cr>", { silent = true, desc = "Swap tree Down" })
-vim.keymap.set("n", "<C-S-k>", "<cmd>Treewalker SwapUp<cr>", { silent = true, desc = "Swap tree Up" })
-vim.keymap.set("n", "<C-S-l>", "<cmd>Treewalker SwapRight<CR>", { silent = true, desc = "Swap tree Right" })
-vim.keymap.set("n", "<C-S-h>", "<cmd>Treewalker SwapLeft<CR>", { silent = true, desc = "Swap tree Left" })
+-- Traverse with treewalker
+vim.keymap.set({ "n", "v" }, "<M-S-k>", "<cmd>Treewalker Up<cr>", { silent = true, desc = "Walk tree Up" })
+vim.keymap.set({ "n", "v" }, "<M-S-j>", "<cmd>Treewalker Down<cr>", { silent = true, desc = "Walk tree Down" })
+vim.keymap.set({ "n", "v" }, "<M-S-l>", "<cmd>Treewalker Right<cr>", { silent = true, desc = "Walk tree Right" })
+vim.keymap.set({ "n", "v" }, "<M-S-h>", "<cmd>Treewalker Left<cr>", { silent = true, desc = "Walk tree Left" })
+
+-- Swap with Treewalker
+vim.keymap.set("n", "<leader><D-S-j>", "<cmd>Treewalker SwapDown<cr>", { silent = true, desc = "Swap tree Down" })
+vim.keymap.set("n", "<leader><D-S-l>", "<cmd>Treewalker SwapRight<CR>", { silent = true, desc = "Swap tree Right" })
+vim.keymap.set("n", "<leader><D-S-h>", "<cmd>Treewalker SwapLeft<CR>", { silent = true, desc = "Swap tree Left" })
+vim.keymap.set("n", "<leader><D-S-k>", "<cmd>Treewalker SwapUp<cr>", { silent = true, desc = "Swap tree Up" })
 
 -- yank, overwrite and delete whole file
 vim.keymap.set("n", "<C-a>", "ggVGy", { noremap = true })
 vim.keymap.set("n", "<C-s>", "ggVGp", { noremap = true })
 vim.keymap.set("n", "<C-d>", "ggVGD", { noremap = true })
-
-vim.keymap.set("n", "<leader>xu", function()
-  local file = vim.fn.expand("%:p")
-  vim.cmd("!pyupgrade --py313-plus " .. file)
-end, { desc = "Run pyupgrade" })
 
 vim.keymap.set("n", "<leader>xp", function()
   require("snacks").terminal.toggle("pre-commit run", {
