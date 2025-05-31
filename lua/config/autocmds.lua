@@ -4,14 +4,26 @@
 vim.api.nvim_create_autocmd("InsertEnter", { pattern = "*", command = "normal! zz" })
 
 local autosave_group = vim.api.nvim_create_augroup("AutoSave", { clear = true })
+
 vim.api.nvim_create_autocmd({ "InsertLeave", "BufEnter", "BufWritePre" }, {
   group = autosave_group,
   pattern = "*",
   callback = function()
+    local buf = vim.api.nvim_get_current_buf()
+    local buftype = vim.bo[buf].buftype
+
+    -- Skip special buffer types that cannot be written
+    if buftype ~= "" then
+      return
+    end
+
+    -- Format using conform
     require("conform").format({ async = false })
+
+    -- Defer save to ensure formatting completes
     vim.defer_fn(function()
-      if vim.bo.modified then
-        vim.cmd("write")
+      if vim.bo.modified and vim.bo.buftype == "" and vim.bo.modifiable then
+        vim.cmd("silent! write")
       end
     end, 1000)
   end,
