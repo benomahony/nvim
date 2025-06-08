@@ -23,9 +23,15 @@ return {
             { icon = ".", key = ".", desc = "Open at root", action = ":Oil" },
             { icon = "🧪", key = "s", desc = "Restore Session", section = "session" },
             { icon = "📁", key = "<leader>", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
-            { icon = "🔍", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+            { icon = "🔍", key = "f", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
             { icon = "🔙", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
-            { icon = "", key = "b", desc = "Browse Github", action = ":lua Snacks.gitbrowse.open()" },
+            { icon = "", key = "g", desc = "LazyGit", action = ":lua Snacks.lazygit({ cwd = LazyVim.root.git() })" },
+            {
+              icon = "",
+              key = "b",
+              desc = "Browse Github",
+              action = ":lua Snacks.gitbrowse.open()",
+            },
             {
               icon = "",
               key = "c",
