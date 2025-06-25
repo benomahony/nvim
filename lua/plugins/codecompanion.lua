@@ -4,30 +4,20 @@ return {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
   },
+  keys = {
+    { "<leader>ac", "<cmd>CodeCompanionChat<CR>", desc = "CodeCompanion Chat" },
+    { "<leader>ai", "<cmd>CodeCompanion<CR>", desc = "CodeCompanion Inline" },
+  },
   opts = {
-    adapters = {
-      ollama_qwen3_32b = function()
-        return require("codecompanion.adapters").extend("ollama", {
-          schema = {
-            model = {
-              default = "qwen3:32b",
-            },
-            num_ctx = {
-              default = 20000,
-            },
-          },
-        })
-      end,
-    },
     strategies = {
       chat = {
-        adapter = "ollama_qwen3_32b",
+        adapter = "gemini",
       },
       inline = {
-        adapter = "ollama_qwen3_32b",
+        adapter = "gemini",
       },
       cmd = {
-        adapter = "ollama_qwen3_32b",
+        adapter = "gemini",
       },
     },
     display = {
@@ -48,5 +38,40 @@ return {
         provider = "default", -- default|mini_diff
       },
     },
+    extensions = {
+      mcphub = {
+        callback = "mcphub.extensions.codecompanion",
+        opts = {
+          show_result_in_chat = true, -- Show mcp tool results in chat
+          make_vars = true, -- Convert resources to #variables
+          make_slash_commands = true, -- Add prompts as /slash commands
+        },
+      },
+    },
+    -- adapters = {
+    --   ollama_qwen3_32b = function()
+    --     return require("codecompanion.adapters").extend("ollama", {
+    --       schema = {
+    --         model = {
+    --           default = "qwen3:32b",
+    --         },
+    --         num_ctx = {
+    --           default = 20000,
+    --         },
+    --       },
+    --     })
+    --   end,
+    -- },
+    -- strategies = {
+    --   chat = {
+    --     adapter = "ollama_qwen3_32b",
+    --   },
+    --   inline = {
+    --     adapter = "ollama_qwen3_32b",
+    --   },
+    --   cmd = {
+    --     adapter = "ollama_qwen3_32b",
+    --   },
+    -- },
   },
 }
