@@ -13,7 +13,7 @@ vim.keymap.set("n", "<leader><leader>", function()
 end, { noremap = true, silent = true })
 
 -- Split lines on character
-vim.keymap.set("n", "<leader>j", function()
+vim.keymap.set("n", "<leader>J", function()
   local char = vim.fn.input("Split on character: ")
   if char ~= "" then
     local escaped = vim.fn.escape(char, "/\\")
@@ -21,7 +21,7 @@ vim.keymap.set("n", "<leader>j", function()
   end
 end, { desc = "Split line on character" })
 
-vim.keymap.set("v", "<leader>j", function()
+vim.keymap.set("v", "<leader>J", function()
   local char = vim.fn.input("Split on character: ")
   if char ~= "" then
     local escaped = vim.fn.escape(char, "/\\")
@@ -122,6 +122,41 @@ vim.keymap.set("n", "<leader>xp", function()
     },
   })
 end, { desc = "Run precommit" })
+
+-- Go to test/source
+vim.keymap.set("n", "<leader>gt", function()
+  local current = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
+
+  if current:match("^tests/") then
+    -- Going from test to source
+    local source = current:gsub("^tests/", ""):gsub("_test%.py$", ".py")
+    if vim.fn.filereadable(source) == 1 then
+      vim.cmd("edit " .. source)
+      require("snacks").notify("📝 Switched to source: " .. source, { title = "Test → Source" })
+    else
+      require("snacks").notify("❌ Source file not found: " .. source, { title = "Error", level = "error" })
+    end
+  else
+    -- Going from source to test
+    local without_ext = current:gsub("%.py$", "")
+    local test_file = "tests/" .. without_ext .. "_test.py"
+
+    if vim.fn.filereadable(test_file) == 1 then
+      vim.cmd("edit " .. test_file)
+      require("snacks").notify("🧪 Switched to test: " .. test_file, { title = "Source → Test" })
+    else
+      vim.ui.select({ "Yes", "No" }, {
+        prompt = "🆕 Create test file: " .. test_file .. "?",
+      }, function(choice)
+        if choice == "Yes" then
+          vim.fn.mkdir(vim.fn.fnamemodify(test_file, ":h"), "p")
+          vim.cmd("edit " .. test_file)
+          require("snacks").notify("✨ Created test: " .. test_file, { title = "New Test File" })
+        end
+      end)
+    end
+  end
+end, { desc = "Go to test/source" })
 
 vim.keymap.del("n", "<leader>:")
 

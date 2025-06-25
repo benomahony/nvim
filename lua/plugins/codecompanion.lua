@@ -7,6 +7,7 @@ return {
   keys = {
     { "<leader>ac", "<cmd>CodeCompanionChat<CR>", desc = "CodeCompanion Chat" },
     { "<leader>ai", "<cmd>CodeCompanion<CR>", desc = "CodeCompanion Inline" },
+    { "<leader>aa", "<cmd>CodeCompanionActions<CR>", desc = "CodeCompanion Actions" },
   },
   opts = {
     strategies = {
@@ -23,7 +24,7 @@ return {
     display = {
       chat = {
         intro_message = "Welcome to CodeCompanion ✨! Press ? for options",
-        show_header_separator = false, -- Show header separators in the chat buffer? Set this to false if you're using an external markdown formatting plugin
+        show_header_separator = true, -- Show header separators in the chat buffer? Set this to false if you're using an external markdown formatting plugin
         separator = "─", -- The separator between the different messages in the chat buffer
         show_references = true, -- Show references (from slash commands and variables) in the chat buffer?
         show_settings = false, -- Show LLM settings at the top of the chat buffer?
@@ -48,30 +49,5 @@ return {
         },
       },
     },
-    -- adapters = {
-    --   ollama_qwen3_32b = function()
-    --     return require("codecompanion.adapters").extend("ollama", {
-    --       schema = {
-    --         model = {
-    --           default = "qwen3:32b",
-    --         },
-    --         num_ctx = {
-    --           default = 20000,
-    --         },
-    --       },
-    --     })
-    --   end,
-    -- },
-    -- strategies = {
-    --   chat = {
-    --     adapter = "ollama_qwen3_32b",
-    --   },
-    --   inline = {
-    --     adapter = "ollama_qwen3_32b",
-    --   },
-    --   cmd = {
-    --     adapter = "ollama_qwen3_32b",
-    --   },
-    -- },
   },
 }
