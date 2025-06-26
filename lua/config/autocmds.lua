@@ -18,7 +18,7 @@ vim.api.nvim_create_autocmd({ "InsertLeave", "BufEnter", "BufWritePre" }, {
     end
 
     -- Format using conform
-    require("conform").format({ async = false })
+    require("conform").format()
 
     -- Defer save to ensure formatting completes
     vim.defer_fn(function()
