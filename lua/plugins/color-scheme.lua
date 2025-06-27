@@ -5,6 +5,10 @@ return {
     styles = {
       sidebars = "transparent",
       floats = "transparent",
+      comments = { italic = true },
+      keywords = { italic = false },
+      functions = { italic = false },
+      variables = { italic = false },
     },
   },
 }
