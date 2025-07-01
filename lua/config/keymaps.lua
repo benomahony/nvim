@@ -134,11 +134,14 @@ vim.keymap.del("n", "<leader>:")
 vim.keymap.set("n", "<leader>ac", ":CodeCompanionChat<CR>", { desc = "Start ai chat" })
 
 -- Copy current buffer path to clipboard
-vim.keymap.set("n", "<leader>yp", function()
+vim.keymap.set("n", "yp", function()
   local filepath = vim.api.nvim_buf_get_name(0)
   if filepath == "" then
     require("snacks").notify("❌ No file path available", { title = "Error", level = "error" })
     return
+  end
+  if filepath:match("^oil:///") then
+    filepath = filepath:gsub("^oil:///", "")
   end
   vim.fn.setreg("+", filepath)
   require("snacks").notify("📋 yanked path: " .. filepath, { title = "Yank Path" })

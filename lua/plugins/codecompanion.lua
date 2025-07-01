@@ -11,6 +11,15 @@ return {
     { "<leader>aa", "<cmd>CodeCompanionActions<CR>", desc = "CodeCompanion Actions" },
   },
   opts = {
+    adapters = {
+      gemini = function()
+        return require("codecompanion.adapters").extend("gemini", {
+          env = {
+            api_key = "cmd:op read op://employee/povmeksro7vsc5xhdufg7mpp4q/credential",
+          },
+        })
+      end,
+    },
     strategies = {
       chat = {
         adapter = "gemini",
