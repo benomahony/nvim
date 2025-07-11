@@ -11,9 +11,10 @@ vim.api.nvim_create_autocmd({ "InsertLeave", "BufEnter", "BufWritePre" }, {
   callback = function()
     local buf = vim.api.nvim_get_current_buf()
     local buftype = vim.bo[buf].buftype
+    local filetype = vim.bo[buf].filetype
 
-    -- Skip special buffer types that cannot be written
-    if buftype ~= "" then
+    -- Skip special buffer types and Oil
+    if buftype ~= "" or filetype == "oil" then
       return
     end
 
