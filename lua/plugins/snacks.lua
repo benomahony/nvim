@@ -39,7 +39,6 @@ return {
       quickfile = { enabled = true },
       statuscolumn = { enabled = true },
       words = { enabled = true },
-      explorer = { enabled = true },
       dashboard = {
         preset = {
 
