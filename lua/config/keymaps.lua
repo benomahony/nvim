@@ -79,9 +79,10 @@ vim.keymap.set("n", "<D-S-h>", "<cmd>Treewalker SwapLeft<CR>", { silent = true, 
 vim.keymap.set("n", "<D-S-k>", "<cmd>Treewalker SwapUp<cr>", { silent = true, desc = "Swap tree Up" })
 
 -- yank, overwrite and delete whole file
-vim.keymap.set("n", "<C-a>", "ggVGy", { noremap = true })
-vim.keymap.set("n", "<C-s>", "ggVGp", { noremap = true })
-vim.keymap.set("n", "<C-d>", "ggVGD", { noremap = true })
+vim.keymap.set("n", "<C-a>", "ggVGy")
+
+vim.keymap.set("n", "<C-s>", "ggVGp")
+vim.keymap.set("n", "<C-d>", "ggVGD")
 
 vim.keymap.set("n", "<leader>xp", function()
   require("snacks").terminal.toggle("pre-commit run", {
@@ -130,8 +131,6 @@ vim.keymap.set("n", "<leader>tg", function()
 end, { desc = "Go to test/source" })
 
 vim.keymap.del("n", "<leader>:")
-
-vim.keymap.set("n", "<leader>ac", ":CodeCompanionChat<CR>", { desc = "Start ai chat" })
 
 -- Copy current buffer path to clipboard
 vim.keymap.set("n", "yp", function()
