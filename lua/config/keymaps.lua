@@ -145,3 +145,13 @@ vim.keymap.set("n", "yp", function()
   vim.fn.setreg("+", filepath)
   require("snacks").notify("📋 yanked path: " .. filepath, { title = "Yank Path" })
 end, { desc = "Yank Path to clipboard" })
+
+-- Surround list items with quotes
+vim.keymap.set("v", "gsw", function()
+  -- Replace opening bracket with bracket + quote
+  vim.cmd("'<,'>s/\\[/[\"")
+  -- Replace closing bracket with quote + bracket
+  vim.cmd("'<,'>s/\\]/\"]")
+  -- Replace comma-space with quote-comma-quote-space
+  vim.cmd("'<,'>s/, /\", \"/g")
+end, { desc = "Quote list items" })
