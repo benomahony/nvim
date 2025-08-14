@@ -30,11 +30,12 @@ vim.api.nvim_create_autocmd({ "InsertLeave", "BufEnter", "BufWritePre" }, {
   end,
 })
 
+-- Reloads the buffer when it's changed externally but only if no changes have been made in vim
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
   pattern = "*",
   callback = function()
     if not vim.bo.modified then
-      vim.cmd("checktime")
+      vim.cmd.checktime()
     end
   end,
 })
@@ -56,12 +57,5 @@ vim.api.nvim_create_autocmd("User", {
     if event.data.actions.type == "move" then
       Snacks.rename.on_rename_file(event.data.actions.src_url, event.data.actions.dest_url)
     end
-  end,
-})
-vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function()
-    vim.api.nvim_set_hl(0, "Comment", {
-      italic = true,
-    })
   end,
 })

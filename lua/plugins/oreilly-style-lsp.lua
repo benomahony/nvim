@@ -7,7 +7,15 @@ return {
       if not configs["oreilly-style-lsp"] then
         configs["oreilly-style-lsp"] = {
           default_config = {
-            cmd = { "uv", "run", "--directory", "/Users/benomahony/Code/oreilly-style-lsp", "oreilly-lsp", "serve", "--stdio" },
+            cmd = {
+              "uv",
+              "run",
+              "--directory",
+              "/Users/benomahony/Code/oreilly-style-lsp",
+              "oreilly-lsp",
+              "serve",
+              "--stdio",
+            },
             filetypes = { "markdown", "text", "asciidoc", "rst" },
             root_dir = function(fname)
               local util = require("lspconfig.util")

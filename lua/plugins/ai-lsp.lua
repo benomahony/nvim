@@ -14,7 +14,6 @@ return {
               return util.root_pattern(".git", "pyproject.toml", "package.json", "Cargo.toml", "go.mod")(fname)
             end,
             settings = {},
-            name = "ai-lsp",
           },
           docs = {
             description = "AI-powered Language Server for semantic code analysis",
