@@ -1,6 +1,8 @@
 return {
   "stevearc/aerial.nvim",
   opts = {
+    autojump = true,
+    backends = { "treesitter", "lsp", "markdown", "man", "asciidoc", "latex" },
     close_automatic_events = {
       "unfocus",
       "switch_buffer",
