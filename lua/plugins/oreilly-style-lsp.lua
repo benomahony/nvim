@@ -14,7 +14,6 @@ return {
               "/Users/benomahony/Code/oreilly-style-lsp",
               "oreilly-lsp",
               "serve",
-              "--stdio",
             },
             filetypes = { "markdown", "text", "asciidoc", "rst" },
             root_dir = function(fname)

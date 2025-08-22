@@ -1,4 +1,6 @@
 vim.g.lazyvim_python_lsp = "basedpyright"
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
 
 vim.opt.scrolloff = 10
 vim.opt.sidescrolloff = 10
