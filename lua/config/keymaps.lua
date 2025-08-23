@@ -9,7 +9,7 @@ vim.api.nvim_create_user_command("WQA", "wqa", { bang = true })
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 -- Quick file search
 vim.keymap.set("n", "<leader><leader>", function()
-  require("snacks").picker.files()
+  require("fff").find_files()
 end, { noremap = true, silent = true })
 
 -- Buffer picker
