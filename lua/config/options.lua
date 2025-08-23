@@ -1,6 +1,5 @@
 vim.g.lazyvim_python_lsp = "basedpyright"
 vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
 
 vim.opt.scrolloff = 10
 vim.opt.sidescrolloff = 10
@@ -9,4 +8,6 @@ vim.opt.incsearch = true
 vim.opt.signcolumn = "yes"
 vim.opt.swapfile = false
 vim.opt.wrap = true
+vim.opt.spell = true
+vim.opt.spelllang = "en_gb"
 vim.g.snack_terminal = "ghostty"
