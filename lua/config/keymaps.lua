@@ -155,3 +155,28 @@ vim.keymap.set("v", "gsw", function()
   -- Replace comma-space with quote-comma-quote-space
   vim.cmd("'<,'>s/, /\", \"/g")
 end, { desc = "Quote list items" })
+
+-- Add the word under the cursor to a specific Vale vocabulary file.
+local function add_word_to_vale_vocab()
+  local vocab_file_path =
+    "/Users/benomahony/writing/building-ai-agent-platforms/styles/config/vocabularies/Base/accept.txt"
+  local word = vim.fn.expand("<cword>")
+
+  if word == "" then
+    vim.notify("No word under cursor.", vim.log.levels.WARN)
+    return
+  end
+
+  local command = string.format("echo '%s' >> %s", word, vim.fn.shellescape(vocab_file_path))
+  vim.fn.system(command)
+
+  vim.notify('Appended "' .. word .. '" to vocabulary.')
+end
+
+-- The 'zg' keymap is often used in Vim for adding a word to a spell file,
+-- so it's a conventional choice for this kind of operation.
+vim.keymap.set("n", "zg", add_word_to_vale_vocab, {
+  noremap = true,
+  silent = true,
+  desc = "Add word to Vale vocabulary",
+})
