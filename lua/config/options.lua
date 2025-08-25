@@ -8,6 +8,4 @@ vim.opt.incsearch = true
 vim.opt.signcolumn = "yes"
 vim.opt.swapfile = false
 vim.opt.wrap = true
-vim.opt.spell = true
-vim.opt.spelllang = "en_gb"
 vim.g.snack_terminal = "ghostty"

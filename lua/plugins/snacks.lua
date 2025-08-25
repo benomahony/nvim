@@ -41,6 +41,8 @@ return {
       statuscolumn = { enabled = true },
       words = { enabled = true },
       dashboard = { enabled = false },
+      zen_mode = { enabled = false },
+      dimming = { enabled = false },
     }
     require("snacks").setup(opts)
   end,
