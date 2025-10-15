@@ -17,7 +17,7 @@ return {
       placement = "window",
       default_direction = "right",
       close_on_select = false,
-      max_width = 30,
+      max_width = 50,
       min_width = 30,
     },
     ignore = {

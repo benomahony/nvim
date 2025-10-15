@@ -1,49 +1,32 @@
 return {
   {
     "neovim/nvim-lspconfig",
+    ---@param _ any
+    ---@param opts table|nil
     opts = function(_, opts)
-      local configs = require("lspconfig.configs")
-
-      -- AI LS
-      if not configs["ai-lsp"] then
-        configs["ai-lsp"] = {
-          default_config = {
-            cmd = { "uv", "run", "--directory", "/Users/benomahony/Code/open_source/ai-lsp", "ai-lsp" },
-            filetypes = { "python", "javascript", "typescript", "rust", "go", "lua", "java", "cpp", "c" },
-            root_dir = function(fname)
-              local util = require("lspconfig.util")
-              return util.root_pattern(".git", "pyproject.toml", "package.json", "Cargo.toml", "go.mod")(fname)
-            end,
-            settings = {},
-          },
-          docs = {
-            description = "AI-powered Language Server for semantic code analysis",
-          },
-        }
-      end
-
-      -- Vale LSP
-      if not configs["vale-ls"] then
-        configs["vale-ls"] = {
-          default_config = {
-            cmd = { "vale-ls" },
-            filetypes = { "asciidoc", "markdown", "text", "rst" },
-            root_dir = function(fname)
-              local util = require("lspconfig.util")
-              return util.root_pattern(".vale.ini", ".git")(fname)
-            end,
-            settings = {},
-            name = "vale-ls",
-          },
-          docs = {
-            description = "Vale Language Server for prose linting",
-          },
-        }
-      end
-
+      opts = opts or {}
       opts.servers = opts.servers or {}
-      opts.servers["ai-lsp"] = {}
-      opts.servers["vale-ls"] = {}
+
+      if not vim.env.GOOGLE_API_KEY or vim.trim(vim.env.GOOGLE_API_KEY) == "" then
+        vim.notify(
+          "[ai-lsp] GOOGLE_API_KEY not found in environment. The server may refuse requests.",
+          vim.log.levels.WARN
+        )
+      end
+
+      local ai_lsp_path = vim.fn.expand("~/Code/open_source/ai-lsp")
+
+      opts.servers["ai-lsp"] = {
+        cmd = { "uv", "run", "--directory", ai_lsp_path, "ai-lsp" },
+
+        filetypes = { "python", "javascript", "typescript", "rust", "go", "lua", "asciidoc", "java", "cpp", "c" },
+
+        on_new_config = function(root_dir)
+          vim.schedule(function()
+            vim.notify(("[ai-lsp] starting for %s"):format(root_dir or "(unknown)"), vim.log.levels.DEBUG)
+          end)
+        end,
+      }
 
       return opts
     end,

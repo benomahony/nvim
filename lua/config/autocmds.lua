@@ -5,7 +5,7 @@ vim.api.nvim_create_autocmd("InsertEnter", { pattern = "*", command = "normal! z
 
 local autosave_group = vim.api.nvim_create_augroup("AutoSave", { clear = true })
 
-vim.api.nvim_create_autocmd({ "InsertLeave", "BufEnter", "BufWritePre" }, {
+vim.api.nvim_create_autocmd({ "InsertLeave", "BufEnter" }, {
   group = autosave_group,
   pattern = "*",
   callback = function()
