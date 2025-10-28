@@ -11,4 +11,3 @@ vim.opt.wrap = true
 vim.opt.relativenumber = false
 vim.opt.smartcase = true
 vim.opt.ignorecase = true
-vim.g.snack_terminal = "ghostty"

@@ -35,9 +35,6 @@ vim.keymap.set("v", "<leader>J", function()
   end
 end, { desc = "Split selection on character" })
 
-vim.keymap.set({ "n", "v" }, "m", '"_dp')
-vim.keymap.set({ "n", "v" }, "mm", '"_ddp')
-
 -- Fix type "#" on wezterm
 vim.keymap.set("i", "<M-3>", "#")
 
@@ -47,7 +44,7 @@ vim.keymap.set("n", "<C-a>", "ggVGy")
 vim.keymap.set("n", "<C-s>", "ggVGp")
 vim.keymap.set("n", "<C-d>", "ggVGD")
 
-vim.keymap.set("n", "<leader>xp", function()
+vim.keymap.set("n", "<leader>cp", function()
   require("snacks").terminal.toggle("pre-commit run", {
     auto_close = false,
     win = {

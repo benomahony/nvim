@@ -6,12 +6,6 @@ return {
       asciidoc = { "asciidoc_format" },
     },
     formatters = {
-      pyupgrade = {
-        command = "pyupgrade",
-        args = { "--py313-plus", "-" }, -- default version
-        stdin = true,
-        exit_codes = { 0, 1 },
-      },
       ruff_fix = {
         exit_codes = { 0, 1 },
       },

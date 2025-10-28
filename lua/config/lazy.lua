@@ -30,7 +30,6 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.test.core" },
     { import = "lazyvim.plugins.extras.editor.refactoring" },
     { import = "lazyvim.plugins.extras.editor.inc-rename" },
-    { import = "lazyvim.plugins.extras.editor.mini-move" },
     { import = "lazyvim.plugins.extras.coding.luasnip" },
     { import = "lazyvim.plugins.extras.coding.mini-surround" },
     { import = "lazyvim.plugins.extras.coding.mini-comment" },
