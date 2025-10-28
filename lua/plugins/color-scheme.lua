@@ -1,5 +1,4 @@
 return {
-  -- "folke/tokyonight.nvim",
   "eldritch-theme/eldritch.nvim",
   opts = {
     -- transparent = true,

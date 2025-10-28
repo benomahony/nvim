@@ -40,7 +40,6 @@ vim.keymap.set("i", "<M-3>", "#")
 
 -- yank, overwrite and delete whole file
 vim.keymap.set("n", "<C-a>", "ggVGy")
-
 vim.keymap.set("n", "<C-s>", "ggVGp")
 vim.keymap.set("n", "<C-d>", "ggVGD")
 

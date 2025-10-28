@@ -16,14 +16,7 @@ return {
 
       opts.servers["ai-lsp"] = {
         cmd = { "uvx", "ai-lsp" },
-
         filetypes = { "python", "javascript", "typescript", "rust", "go", "lua", "asciidoc", "java", "cpp", "c" },
-
-        on_new_config = function(root_dir)
-          vim.schedule(function()
-            vim.notify(("[ai-lsp] starting for %s"):format(root_dir or "(unknown)"), vim.log.levels.DEBUG)
-          end)
-        end,
       }
     end,
   },
