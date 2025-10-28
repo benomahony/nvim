@@ -25,12 +25,6 @@ return {
           end)
         end,
       }
-
-      opts.servers["vale_ls"] = {
-        cmd = { "vale-ls" },
-        filetypes = { "markdown", "text", "asciidoc", "tex" },
-      }
-      return opts
     end,
   },
 }

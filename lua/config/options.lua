@@ -9,6 +9,6 @@ vim.opt.signcolumn = "yes"
 vim.opt.swapfile = false
 vim.opt.wrap = true
 vim.opt.relativenumber = false
-vim.g.snack_terminal = "ghostty" and {
-  enabled = true,
-}
+vim.opt.smartcase = true
+vim.opt.ignorecase = true
+vim.g.snack_terminal = "ghostty"
