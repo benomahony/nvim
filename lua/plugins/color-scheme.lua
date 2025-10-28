@@ -1,5 +1,6 @@
 return {
-  "folke/tokyonight.nvim",
+  -- "folke/tokyonight.nvim",
+  "eldritch-theme/eldritch.nvim",
   opts = {
     -- transparent = true,
     styles = {
@@ -9,6 +10,12 @@ return {
       keywords = { italic = false },
       functions = { italic = false },
       variables = { italic = false },
+    },
+  },
+  {
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = "eldritch",
     },
   },
 }

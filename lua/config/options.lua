@@ -8,4 +8,6 @@ vim.opt.incsearch = true
 vim.opt.signcolumn = "yes"
 vim.opt.swapfile = false
 vim.opt.wrap = true
-vim.g.snack_terminal = "ghostty"
+vim.g.snack_terminal = "ghostty" and {
+  enabled = true,
+}

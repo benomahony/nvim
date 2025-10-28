@@ -5,9 +5,10 @@ return {
     build = "cd server && npm install --omit=dev",
     ---@module 'asciidoc-preview'
     ---@type asciidoc-preview.Config
-    opts = {
-      -- Add user configuration here
-    },
+    opts = {},
+    config = function(_, opts)
+      require("asciidoc-preview").setup(opts)
+    end,
   },
   {
     "lukas-reineke/headlines.nvim",

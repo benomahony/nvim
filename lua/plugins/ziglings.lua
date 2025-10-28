@@ -1,3 +1,0 @@
-return {
-  "benomahony/ziglings.nvim",
-}

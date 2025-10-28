@@ -14,10 +14,8 @@ return {
         )
       end
 
-      local ai_lsp_path = vim.fn.expand("~/Code/open_source/ai-lsp")
-
       opts.servers["ai-lsp"] = {
-        cmd = { "uv", "run", "--directory", ai_lsp_path, "ai-lsp" },
+        cmd = { "uvx", "ai-lsp" },
 
         filetypes = { "python", "javascript", "typescript", "rust", "go", "lua", "asciidoc", "java", "cpp", "c" },
 
@@ -28,6 +26,10 @@ return {
         end,
       }
 
+      opts.servers["vale_ls"] = {
+        cmd = { "vale-ls" },
+        filetypes = { "markdown", "text", "asciidoc", "tex" },
+      }
       return opts
     end,
   },
