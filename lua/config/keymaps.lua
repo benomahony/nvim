@@ -7,17 +7,15 @@ vim.api.nvim_create_user_command("WQa", "wqa", { bang = true })
 vim.api.nvim_create_user_command("WQA", "wqa", { bang = true })
 -- Nice oily navigation
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
--- Quick file search
-vim.keymap.set("n", "<leader><leader>", function()
-  require("fff").find_files()
-end, { noremap = true, silent = true })
 
 -- Buffer picker
 vim.keymap.set("n", "<leader>bb", function()
   require("snacks").picker.buffers()
 end, { noremap = true, silent = true, desc = "Find buffers" })
+vim.keymap.set("n", "<leader><leader>", function()
+  require("util.combined-picker").pick()
+end, { noremap = true, silent = true, desc = "Combined picker (all sources)" })
 
--- Split lines on character
 vim.keymap.set("n", "<leader>J", function()
   local char = vim.fn.input("Split on character: ")
   if char ~= "" then

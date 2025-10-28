@@ -44,7 +44,7 @@ return {
     keymaps = {
       ["<C-c>"] = false,
       ["q"] = "actions.close",
-      ["u."] = { "actions.toggle_hidden", desc = "Toggle hidden files and directories" },
+      ["."] = { "actions.toggle_hidden", desc = "Toggle hidden files and directories" },
     },
   },
 }
