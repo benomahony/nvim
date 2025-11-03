@@ -35,7 +35,7 @@ vim.keymap.set("v", "<leader>J", function()
   end
 end, { desc = "Split selection on character" })
 
--- Fix type "#" on wezterm
+-- Fix type "#" on terminal (ghostty & wezterm both have this issue)
 vim.keymap.set("i", "<M-3>", "#")
 
 -- yank, overwrite and delete whole file
