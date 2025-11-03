@@ -16,7 +16,35 @@ return {
 
       opts.servers["ai-lsp"] = {
         cmd = { "uvx", "ai-lsp" },
-        filetypes = { "python", "javascript", "typescript", "rust", "go", "lua", "asciidoc", "java", "cpp", "c" },
+        filetypes = {
+          "python",
+          "javascript",
+          "typescript",
+          "rust",
+          "go",
+          "lua",
+          "asciidoc",
+          "java",
+          "cpp",
+          "c",
+          "markdown",
+        },
+      }
+      opts.servers["haper"] = {
+        cmd = { "haper-lsp" },
+        filetypes = {
+          "python",
+          "javascript",
+          "typescript",
+          "rust",
+          "go",
+          "lua",
+          "asciidoc",
+          "java",
+          "cpp",
+          "c",
+          "markdown",
+        },
       }
     end,
   },
