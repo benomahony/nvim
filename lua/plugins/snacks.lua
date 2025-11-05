@@ -4,7 +4,7 @@ return {
   opts = {
     bigfile = { enabled = true },
     explorer = { enabled = false },
-    image = { enabled = true },
+    image = { enabled = false },
     notifier = { enabled = true },
     quickfile = { enabled = true },
     statuscolumn = { enabled = true },
@@ -12,5 +12,7 @@ return {
     dashboard = { enabled = false },
     zen_mode = { enabled = false },
     dimming = { enabled = false },
+    scroll = { enabled = false },
+    scope = { enabled = false },
   },
 }

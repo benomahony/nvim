@@ -56,7 +56,6 @@ end, { desc = "Run precommit" })
 
 vim.keymap.del("n", "<leader>:")
 
--- Copy current buffer path to clipboard
 vim.keymap.set("n", "yp", function()
   local filepath = vim.api.nvim_buf_get_name(0)
   if filepath == "" then
