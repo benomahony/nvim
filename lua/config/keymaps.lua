@@ -96,8 +96,6 @@ local function add_word_to_vale_vocab()
   vim.notify('Appended "' .. word .. '" to vocabulary.')
 end
 
--- The 'zg' keymap is often used in Vim for adding a word to a spell file,
--- so it's a conventional choice for this kind of operation.
 vim.keymap.set("n", "zg", add_word_to_vale_vocab, {
   noremap = true,
   silent = true,
