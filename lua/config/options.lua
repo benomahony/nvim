@@ -10,5 +10,4 @@ vim.opt.swapfile = false
 vim.opt.wrap = true
 vim.opt.relativenumber = false
 vim.opt.smartcase = true
-vim.opt.ignorecase = true
 vim.opt.autoread = true
