@@ -6,7 +6,7 @@ vim.api.nvim_create_user_command("Wqa", "wqa", { bang = true })
 vim.api.nvim_create_user_command("WQa", "wqa", { bang = true })
 vim.api.nvim_create_user_command("WQA", "wqa", { bang = true })
 -- Nice oily navigation
-vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+vim.keymap.set("n", "-", "<CMD>Fyler<CR>", { desc = "Open parent directory" })
 
 -- Buffer picker
 vim.keymap.set("n", "<leader>bb", function()
