@@ -41,7 +41,6 @@ vim.keymap.set("i", "<M-3>", "#")
 -- yank, overwrite and delete whole file
 vim.keymap.set("n", "<C-a>", "ggVGy")
 vim.keymap.set("n", "<C-s>", "ggVGp")
-vim.keymap.set("n", "<C-d>", "ggVGD")
 
 vim.keymap.set("n", "<leader>cp", function()
   require("snacks").terminal.toggle("pre-commit run", {

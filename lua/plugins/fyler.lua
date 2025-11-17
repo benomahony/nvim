@@ -19,7 +19,7 @@ return {
     vim.api.nvim_create_autocmd("VimEnter", {
       nested = true,
       callback = function()
-        if vim.fn.argc() == 0 and vim.api.nvim_buf_get_name(0) == "" then
+        if vim.fn.argc() == 0 then
           require("fyler").open({})
         end
       end,

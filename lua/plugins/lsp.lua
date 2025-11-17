@@ -50,6 +50,10 @@ return {
         )
       end
 
+      opts.servers["NASA"] = {
+        cmd = { "uvx", "nasa-lsp" },
+        filetypes = { "python" },
+      }
       opts.servers["ai-lsp"] = {
         cmd = { "uv", "run", "--directory", "/Users/benomahony/Code/open_source/ai-lsp", "ai-lsp", "serve" },
         filetypes = {
