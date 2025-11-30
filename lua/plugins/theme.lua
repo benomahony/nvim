@@ -1,0 +1,1 @@
+/Users/benomahony/.config/themes/current/neovim.lua

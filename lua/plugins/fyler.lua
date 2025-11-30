@@ -4,17 +4,27 @@ return {
   branch = "stable",
   lazy = false,
   opts = {
-    views = {
-      finder = {
-        default_explorer = true,
-      },
-    },
+    default_explorer = true,
     watcher = {
       enabled = true,
+    },
+    win = {
+      win_opts = {
+        signcolumn = "yes",
+        number = true,
+      },
     },
   },
   config = function(_, opts)
     require("fyler").setup(opts)
+
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "fyler",
+      callback = function()
+        vim.opt_local.signcolumn = "yes"
+        vim.opt_local.number = true
+      end,
+    })
 
     vim.api.nvim_create_autocmd("VimEnter", {
       nested = true,

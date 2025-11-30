@@ -53,6 +53,17 @@ return {
       opts.servers["NASA"] = {
         cmd = { "uvx", "nasa-lsp" },
         filetypes = { "python" },
+        -- root_dir = { "pyproject.toml" },
+      }
+      opts.servers["wiley"] = {
+        cmd = {
+          "uv",
+          "run",
+          "--directory",
+          "/Users/benomahony/thoughtworks/wiley-lsp/",
+          "wiley-style",
+        },
+        filetypes = { "markdown", "tex" },
       }
       opts.servers["ai-lsp"] = {
         cmd = { "uv", "run", "--directory", "/Users/benomahony/Code/open_source/ai-lsp", "ai-lsp", "serve" },

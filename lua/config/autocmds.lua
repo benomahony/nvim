@@ -30,9 +30,10 @@ local function setup_zig_make(bufnr)
 
   -- Parse Zig-style diagnostics into quickfix
   vim.bo[bufnr].errorformat = table.concat({
-    "%f:%l:%c: %trror: %m", -- foo.zig:12:34: error: message
-    "%f:%l:%c: %tarning: %m", -- foo.zig:12:34: warning: message
-    "%-G%.%#", -- ignore the rest
+    "%f:%l:%c: %trror: %m",
+    "%f:%l:%c: %tarning: %m",
+    "%f:%l:%c: note: %m",
+    "%-Greferenced here:%m",
   }, ",")
 end
 
