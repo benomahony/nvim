@@ -4,7 +4,7 @@ return {
   opts = {
     bigfile = { enabled = true },
     explorer = { enabled = false },
-    image = { enabled = false },
+    image = { enabled = true },
     notifier = { enabled = true },
     quickfile = { enabled = true },
     statuscolumn = { enabled = true },

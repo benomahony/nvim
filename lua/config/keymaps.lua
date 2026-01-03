@@ -1,10 +1,9 @@
--- Making :Q and :W case insensitive because I have fat fingers
-vim.api.nvim_create_user_command("Q", "q", { bang = true })
-vim.api.nvim_create_user_command("W", "w", { bang = true })
-vim.api.nvim_create_user_command("Wq", "wq", { bang = true })
-vim.api.nvim_create_user_command("Wqa", "wqa", { bang = true })
-vim.api.nvim_create_user_command("WQa", "wqa", { bang = true })
-vim.api.nvim_create_user_command("WQA", "wqa", { bang = true })
+-- Making quitting commands case insensitive because I have fat fingers
+for _, cmd in ipairs({ "W", "Wq", "WQ", "Qa", "QA", "Wqa", "WQa", "WQA", "Qwa", "QWa", "QWA" }) do
+  vim.api.nvim_create_user_command(cmd, function()
+    vim.cmd(cmd:lower())
+  end, { desc = "Quitting for fat fingers" })
+end
 -- Nice oily navigation
 vim.keymap.set("n", "-", "<CMD>Fyler<CR>", { desc = "Open parent directory" })
 
@@ -38,9 +37,9 @@ end, { desc = "Split selection on character" })
 -- Fix type "#" on terminal (ghostty & wezterm both have this issue)
 vim.keymap.set("i", "<M-3>", "#")
 
--- yank, overwrite and delete whole file
-vim.keymap.set("n", "<C-a>", "ggVGy")
-vim.keymap.set("n", "<C-s>", "ggVGp")
+-- Quick navigation with ctrl+j/k
+vim.keymap.set({ "v", "i", "n" }, "<C-j>", "<C-d>zz", { desc = "Scroll down" })
+vim.keymap.set({ "v", "i", "n" }, "<C-k>", "<C-u>zz", { desc = "Scroll up" })
 
 vim.keymap.set("n", "<leader>cp", function()
   require("snacks").terminal.toggle("pre-commit run", {
