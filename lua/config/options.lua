@@ -1,4 +1,4 @@
-vim.g.lazyvim_python_lsp = "ty"
+vim.g.lazyvim_python_lsp = "basedpyright"
 vim.g.mapleader = " "
 
 vim.opt.scrolloff = 10
