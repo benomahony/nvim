@@ -103,6 +103,15 @@ vim.keymap.set("n", "zg", add_word_to_vale_vocab, {
   desc = "Add word to Vale vocabulary",
 })
 
+vim.keymap.set("n", "<leader>m", function()
+  if vim.bo.buftype ~= "" or vim.bo.filetype == "fyler" or vim.bo.filetype == "oil" then
+    vim.cmd("enew")
+  end
+  vim.cmd("compiler precommit")
+  vim.cmd("silent make")
+  vim.cmd("copen")
+end, { desc = "Make (pre-commit)" })
+
 vim.keymap.set({ "n", "v" }, "<leader>cu", function()
   local versions = {
     { label = "3.10+", arg = "--py310-plus" },
