@@ -73,16 +73,6 @@ end
 vim.keymap.set("n", "<leader>td", toggle_floating_today, { desc = "Today.md floating" })
 vim.keymap.set("n", "<leader>tD", edit_today, { desc = "Edit today.md" })
 
-vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function()
-    vim.schedule(function()
-      toggle_floating_today()
-      vim.cmd("wincmd p")
-    end)
-  end,
-})
-
--- Open today.md on launch if configured
 if open_on_launch then
   vim.api.nvim_create_autocmd("VimEnter", {
     callback = function()
