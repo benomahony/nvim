@@ -1,5 +1,8 @@
 local today_file = vim.fn.expand("~/today.md")
 
+-- Configuration: set to true to open today.md on launch
+local open_on_launch = false
+
 local function ensure_file()
   if vim.fn.filereadable(today_file) == 0 then
     vim.fn.writefile({ "# Today", "", "- [ ] " }, today_file)
@@ -59,5 +62,16 @@ end
 
 vim.keymap.set("n", "<leader>tD", edit_today, { desc = "Edit today.md" })
 vim.keymap.set("n", "<leader>td", toggle_floating_today, { desc = "Today.md floating" })
+
+-- Open today.md on launch if configured
+if open_on_launch then
+  vim.api.nvim_create_autocmd("VimEnter", {
+    callback = function()
+      if vim.fn.argc() == 0 then
+        toggle_floating_today()
+      end
+    end,
+  })
+end
 
 return {}
