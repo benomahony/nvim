@@ -32,11 +32,8 @@ local function toggle_floating_today()
   local col = ui.width - width - 2
   local row = 2
 
-  floating_buf = vim.api.nvim_create_buf(false, false)
-  vim.api.nvim_buf_set_name(floating_buf, today_file)
-  vim.api.nvim_buf_call(floating_buf, function()
-    vim.cmd("edit " .. today_file)
-  end)
+  floating_buf = vim.fn.bufadd(today_file)
+  vim.fn.bufload(floating_buf)
 
   floating_win = vim.api.nvim_open_win(floating_buf, true, {
     relative = "editor",
@@ -58,10 +55,32 @@ local function toggle_floating_today()
     vim.api.nvim_win_close(floating_win, true)
     floating_win = nil
   end, { buffer = floating_buf, desc = "Close today" })
+
+  vim.keymap.set("n", "<CR>", function()
+    local line = vim.api.nvim_get_current_line()
+    local new_line
+    if line:match("%[%s%]") then
+      new_line = line:gsub("%[%s%]", "[x]", 1)
+    elseif line:match("%[x%]") then
+      new_line = line:gsub("%[x%]", "[ ]", 1)
+    else
+      return
+    end
+    vim.api.nvim_set_current_line(new_line)
+  end, { buffer = floating_buf, desc = "Toggle todo" })
 end
 
-vim.keymap.set("n", "<leader>tD", edit_today, { desc = "Edit today.md" })
 vim.keymap.set("n", "<leader>td", toggle_floating_today, { desc = "Today.md floating" })
+vim.keymap.set("n", "<leader>tD", edit_today, { desc = "Edit today.md" })
+
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    vim.schedule(function()
+      toggle_floating_today()
+      vim.cmd("wincmd p")
+    end)
+  end,
+})
 
 -- Open today.md on launch if configured
 if open_on_launch then
