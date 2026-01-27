@@ -51,7 +51,7 @@ return {
       end
 
       opts.servers["NASA"] = {
-        cmd = { "uvx", "nasa-lsp" },
+        cmd = { "uvx", "--from", "nasa-lsp", "nasa", "serve" },
         filetypes = { "python" },
         -- root_dir = { "pyproject.toml" },
       }
