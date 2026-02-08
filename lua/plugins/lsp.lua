@@ -1,24 +1,28 @@
 return {
   {
+    "mason-org/mason.nvim",
+    cmd = "Mason",
+    opts = {},
+  },
+  {
     "neovim/nvim-lspconfig",
-    ---@param _ any
-    ---@param opts table|nil
-    opts = function(_, opts)
-      opts = opts or {}
-      opts.servers = opts.servers or {}
-
-      opts.diagnostics = vim.tbl_deep_extend("force", opts.diagnostics or {}, {
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+    dependencies = { "mason-org/mason.nvim" },
+    config = function()
+      -- Diagnostic configuration
+      vim.diagnostic.config({
         virtual_text = false,
         underline = true,
         severity_sort = true,
         update_in_insert = false,
         float = {
           border = "rounded",
-          source = "always",
+          source = true,
           focusable = false,
         },
       })
 
+      -- Hover diagnostics on CursorHold
       local group = vim.api.nvim_create_augroup("HoverDiagnostics", { clear = true })
       vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
         group = group,
@@ -43,44 +47,77 @@ return {
         end,
       })
 
+      -- gd → go to definition (Neovim 0.11+ uses <C-]> via tagfunc, but gd is muscle memory)
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+          vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf, desc = "Go to Definition" })
+        end,
+      })
+
+      -- GOOGLE_API_KEY check for ai-lsp
       if not vim.env.GOOGLE_API_KEY or vim.trim(vim.env.GOOGLE_API_KEY) == "" then
-        vim.notify(
-          "[ai-lsp] GOOGLE_API_KEY not found in environment. The server may refuse requests.",
-          vim.log.levels.WARN
-        )
+        vim.notify("[ai-lsp] GOOGLE_API_KEY not found in environment.", vim.log.levels.WARN)
       end
 
-      opts.servers["NASA"] = {
-        cmd = { "uvx", "--from", "nasa-lsp", "nasa", "serve" },
-        filetypes = { "python" },
-        -- root_dir = { "pyproject.toml" },
-      }
-      opts.servers["wiley"] = {
-        cmd = {
-          "uv",
-          "run",
-          "--directory",
-          "/Users/benomahony/thoughtworks/wiley-lsp/",
-          "wiley-style",
-        },
-        filetypes = { "markdown", "tex" },
-      }
-      opts.servers["ai-lsp"] = {
-        cmd = { "uv", "run", "--directory", "/Users/benomahony/Code/open_source/ai-lsp", "ai-lsp", "serve" },
-        filetypes = {
-          "asciidoc",
-          "c",
-          "cpp",
-          "go",
-          "java",
-          "javascript",
-          "lua",
-          "markdown",
-          "python",
-          "rust",
-          "typescript",
-        },
-      }
+      local lspconfig = require("lspconfig")
+      local configs = require("lspconfig.configs")
+
+      -- Python
+      lspconfig.basedpyright.setup({})
+
+      -- Custom LSP: NASA
+      if not configs.NASA then
+        configs.NASA = {
+          default_config = {
+            cmd = { "uvx", "--from", "nasa-lsp", "nasa", "serve" },
+            filetypes = { "python" },
+            root_dir = lspconfig.util.root_pattern("pyproject.toml", ".git"),
+          },
+        }
+      end
+      lspconfig.NASA.setup({})
+
+      -- Custom LSP: wiley
+      if not configs.wiley then
+        configs.wiley = {
+          default_config = {
+            cmd = {
+              "uv",
+              "run",
+              "--directory",
+              "/Users/benomahony/thoughtworks/wiley-lsp/",
+              "wiley-style",
+            },
+            filetypes = { "markdown", "tex" },
+            root_dir = lspconfig.util.root_pattern(".git"),
+          },
+        }
+      end
+      lspconfig.wiley.setup({})
+
+      -- Custom LSP: ai-lsp
+      if not configs["ai-lsp"] then
+        configs["ai-lsp"] = {
+          default_config = {
+            cmd = { "uv", "run", "--directory", "/Users/benomahony/Code/open_source/ai-lsp", "ai-lsp", "serve" },
+            filetypes = {
+              "asciidoc",
+              "c",
+              "cpp",
+              "go",
+              "java",
+              "javascript",
+              "lua",
+              "markdown",
+              "python",
+              "rust",
+              "typescript",
+            },
+            root_dir = lspconfig.util.root_pattern(".git"),
+          },
+        }
+      end
+      lspconfig["ai-lsp"].setup({})
     end,
   },
 }

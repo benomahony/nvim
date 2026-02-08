@@ -1,13 +1,16 @@
 return {
   "folke/snacks.nvim",
   priority = 1000,
+  lazy = false,
   opts = {
     bigfile = { enabled = true },
     explorer = { enabled = false },
     image = { enabled = true },
     notifier = { enabled = true },
+    picker = { enabled = true },
     quickfile = { enabled = true },
     statuscolumn = { enabled = true },
+    terminal = { enabled = true },
     words = { enabled = true },
     dashboard = { enabled = false },
     zen_mode = { enabled = false },

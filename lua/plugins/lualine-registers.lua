@@ -1,8 +1,14 @@
 return {
   "nvim-lualine/lualine.nvim",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
+  event = "VeryLazy",
   opts = function(_, opts)
     opts.options = opts.options or {}
     opts.options.component_separators = { left = "│", right = "│" }
+
+    -- Initialize sections with lualine defaults if not set
+    opts.sections = opts.sections or {}
+    opts.sections.lualine_x = opts.sections.lualine_x or { "encoding", "fileformat", "filetype" }
 
     local function registers()
       local cols = vim.o.columns

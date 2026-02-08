@@ -1,7 +1,6 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    optional = true,
     opts = function(_, opts)
       vim.api.nvim_create_autocmd("User", {
         pattern = "TSUpdate",

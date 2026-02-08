@@ -1,10 +1,76 @@
+-- Essential keymaps (previously provided by LazyVim)
+
+-- Window navigation
+vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Go to Left Window", remap = true })
+vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to Right Window", remap = true })
+-- NOTE: <C-j>/<C-k> are mapped to scroll below (user preference)
+
+-- Move lines
+vim.keymap.set("n", "<A-j>", "<cmd>execute 'move .+' . v:count1<cr>==", { desc = "Move Down" })
+vim.keymap.set("n", "<A-k>", "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", { desc = "Move Up" })
+vim.keymap.set("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move Down" })
+vim.keymap.set("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move Up" })
+vim.keymap.set("v", "<A-j>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", { desc = "Move Down" })
+vim.keymap.set("v", "<A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", { desc = "Move Up" })
+
+-- Buffers
+vim.keymap.set("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
+vim.keymap.set("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
+vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete Buffer" })
+
+-- Clear hlsearch on escape
+vim.keymap.set({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and Clear hlsearch" })
+
+-- Better indenting (stay in visual mode)
+vim.keymap.set("v", "<", "<gv")
+vim.keymap.set("v", ">", ">gv")
+
+-- Quickfix
+vim.keymap.set("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
+vim.keymap.set("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
+
+-- Splits
+vim.keymap.set("n", "<leader>-", "<C-W>s", { desc = "Split Below" })
+vim.keymap.set("n", "<leader>|", "<C-W>v", { desc = "Split Right" })
+
+-- Lazy
+vim.keymap.set("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
+
+-- Quit
+vim.keymap.set("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
+
+-- New file
+vim.keymap.set("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
+
+-- Search (via snacks)
+vim.keymap.set("n", "<leader>/", function()
+  require("snacks").picker.grep()
+end, { desc = "Grep" })
+vim.keymap.set("n", "<leader>sg", function()
+  require("snacks").picker.grep()
+end, { desc = "Grep" })
+vim.keymap.set("n", "<leader>sf", function()
+  require("snacks").picker.files()
+end, { desc = "Find Files" })
+vim.keymap.set("n", "<leader>sh", function()
+  require("snacks").picker.help()
+end, { desc = "Help Pages" })
+vim.keymap.set("n", "<leader>sr", function()
+  require("snacks").picker.resume()
+end, { desc = "Resume" })
+
+---------------------------------------------------------------------
+-- Custom keymaps (user's original keymaps)
+---------------------------------------------------------------------
+
 -- Making quitting commands case insensitive because I have fat fingers
 for _, cmd in ipairs({ "W", "Wq", "WQ", "Qa", "QA", "Wqa", "WQa", "WQA", "Qwa", "QWa", "QWA" }) do
   vim.api.nvim_create_user_command(cmd, function()
     vim.cmd(cmd:lower())
   end, { desc = "Quitting for fat fingers" })
 end
--- Nice oily navigation
+
+-- File explorer
 vim.keymap.set("n", "-", "<CMD>Fyler<CR>", { desc = "Open parent directory" })
 
 -- Buffer picker
@@ -52,31 +118,23 @@ vim.keymap.set("n", "<leader>cp", function()
   })
 end, { desc = "Run precommit" })
 
-vim.keymap.del("n", "<leader>:")
-
 vim.keymap.set("n", "yp", function()
   local filepath = vim.api.nvim_buf_get_name(0)
   if filepath == "" then
-    require("snacks").notify("❌ No file path available", { title = "Error", level = "error" })
+    require("snacks").notify("No file path available", { title = "Error", level = "error" })
     return
-  end
-  if filepath:match("^oil:///") then
-    filepath = filepath:gsub("^oil:///", "")
   end
   if filepath:match("fyler:///") then
     filepath = filepath:gsub("fyler:///", "")
   end
   vim.fn.setreg("+", filepath)
-  require("snacks").notify("📋 yanked path: " .. filepath, { title = "Yank Path" })
+  require("snacks").notify("yanked path: " .. filepath, { title = "Yank Path" })
 end, { desc = "Yank Path to clipboard" })
 
 -- Surround list items with quotes
 vim.keymap.set("v", "gsw", function()
-  -- Replace opening bracket with bracket + quote
   vim.cmd("'<,'>s/\\[/[\"")
-  -- Replace closing bracket with quote + bracket
   vim.cmd("'<,'>s/\\]/\"]")
-  -- Replace comma-space with quote-comma-quote-space
   vim.cmd("'<,'>s/, /\", \"/g")
 end, { desc = "Quote list items" })
 
