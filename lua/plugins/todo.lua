@@ -1,7 +1,7 @@
 local today_file = vim.fn.expand("~/todo.md")
 
 -- Configuration: set to true to open today.md on launch
-local open_on_launch = true
+local open_on_launch = false
 
 local function ensure_file()
   if vim.fn.filereadable(today_file) == 0 then
@@ -39,7 +39,7 @@ local function toggle_floating_today()
   vim.bo[floating_buf].filetype = "markdown"
 
   -- Second parameter: false = don't enter window, true = enter window
-  local should_enter = vim.fn.argc() ~= 0  -- Only enter if not on launch
+  local should_enter = vim.fn.argc() ~= 0 -- Only enter if not on launch
   floating_win = vim.api.nvim_open_win(floating_buf, should_enter, {
     relative = "editor",
     width = width,
