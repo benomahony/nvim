@@ -37,9 +37,6 @@ end, { desc = "Split selection on character" })
 -- Fix type "#" on terminal (ghostty & wezterm both have this issue)
 vim.keymap.set("i", "<M-3>", "#")
 
--- Quick navigation with ctrl+j/k
-vim.keymap.set({ "v", "i", "n" }, "<C-j>", "<C-d>zz", { desc = "Scroll down" })
-vim.keymap.set({ "v", "i", "n" }, "<C-k>", "<C-u>zz", { desc = "Scroll up" })
 
 vim.keymap.set("n", "<leader>cp", function()
   require("snacks").terminal.toggle("pre-commit run", {
