@@ -17,6 +17,7 @@ M._spinner_idx = 1
 M._timer = nil
 M._setup_done = false
 M._session_keymaps = {}
+M._current_session_idx = 1
 
 local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
 
@@ -42,6 +43,14 @@ function M.setup()
   vim.keymap.set("n", "<leader>cx", function()
     M.clean()
   end, { desc = "Claude: clean idle" })
+
+  vim.keymap.set("n", "<leader>cn", function()
+    M.cycle_next()
+  end, { desc = "Claude: next session" })
+
+  vim.keymap.set("n", "<leader>cp", function()
+    M.cycle_prev()
+  end, { desc = "Claude: prev session" })
 end
 
 --- Update dynamic keybindings for sessions
@@ -187,6 +196,14 @@ function M.open(session)
     return
   end
 
+  -- Update current session index for cycling
+  for i, s in ipairs(M.sessions) do
+    if s.id == session.id then
+      M._current_session_idx = i
+      break
+    end
+  end
+
   local width = math.floor(vim.o.columns * 0.85)
   local height = math.floor(vim.o.lines * 0.8)
   local row = math.floor((vim.o.lines - height) / 2)
@@ -231,9 +248,31 @@ function M.open(session)
     end
   end, { buffer = session.buf, nowait = true })
 
+  -- Cycle sessions from terminal mode
+  vim.keymap.set("t", "<C-n>", function()
+    if vim.api.nvim_win_is_valid(win) then
+      vim.api.nvim_win_close(win, true)
+    end
+    vim.schedule(function()
+      M.cycle_next()
+    end)
+  end, { buffer = session.buf, nowait = true })
+  vim.keymap.set("t", "<C-p>", function()
+    if vim.api.nvim_win_is_valid(win) then
+      vim.api.nvim_win_close(win, true)
+    end
+    vim.schedule(function()
+      M.cycle_prev()
+    end)
+  end, { buffer = session.buf, nowait = true })
+
   -- Jump to bottom of output and enter insert mode for terminal
-  vim.cmd("normal! G")
-  vim.cmd.startinsert()
+  vim.schedule(function()
+    if vim.api.nvim_win_is_valid(win) then
+      vim.cmd("normal! G")
+      vim.cmd.startinsert()
+    end
+  end)
 end
 
 --- Pick a session to open
@@ -291,6 +330,11 @@ function M._clean_invalid()
   M.sessions = vim.tbl_filter(function(s)
     return vim.api.nvim_buf_is_valid(s.buf)
   end, M.sessions)
+
+  -- Reset index if out of bounds
+  if M._current_session_idx > #M.sessions then
+    M._current_session_idx = math.max(1, #M.sessions)
+  end
 end
 
 --- Get status for a specific session
@@ -343,6 +387,33 @@ function M.open_session(index)
   if session then
     M.open(session)
   end
+end
+
+--- Cycle to next session
+function M.cycle_next()
+  M._clean_invalid()
+  if #M.sessions == 0 then
+    require("snacks").notify("No Claude sessions", { level = "info", title = "Claude" })
+    return
+  end
+
+  M._current_session_idx = (M._current_session_idx % #M.sessions) + 1
+  M.open(M.sessions[M._current_session_idx])
+end
+
+--- Cycle to previous session
+function M.cycle_prev()
+  M._clean_invalid()
+  if #M.sessions == 0 then
+    require("snacks").notify("No Claude sessions", { level = "info", title = "Claude" })
+    return
+  end
+
+  M._current_session_idx = M._current_session_idx - 1
+  if M._current_session_idx < 1 then
+    M._current_session_idx = #M.sessions
+  end
+  M.open(M.sessions[M._current_session_idx])
 end
 
 return M
