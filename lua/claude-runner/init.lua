@@ -8,7 +8,6 @@ local M = {}
 ---@field state "working"|"idle"
 ---@field created_at number
 ---@field last_activity number
----@field last_line_count number
 
 ---@type ClaudeSession[]
 M.sessions = {}
@@ -74,22 +73,14 @@ function M._update_keybindings()
   end
 end
 
---- Check if session is idle by monitoring buffer changes
+--- Check if sessions are still valid (jobs still running)
 function M._update_session_activity()
   for _, s in ipairs(M.sessions) do
     if vim.api.nvim_buf_is_valid(s.buf) and s.job_id then
-      -- Check if job is still running
+      -- Verify job is still running (on_exit callback handles cleanup)
       local job_status = vim.fn.jobwait({ s.job_id }, 0)[1]
-      if job_status == -1 then
-        -- Job is still running - check for actual buffer activity
-        local current_lines = vim.api.nvim_buf_line_count(s.buf)
-        if current_lines > s.last_line_count then
-          s.last_activity = os.time()
-          s.last_line_count = current_lines
-        end
-        -- State is determined by idle time in session_color()
-      end
-      -- If job finished, on_exit callback will handle cleanup
+      -- job_status == -1 means still running
+      -- Activity tracking is now handled by stdout/stderr callbacks
     end
   end
 end
@@ -133,8 +124,27 @@ function M.create(prompt)
   M._next_id = M._next_id + 1
 
   local job_id
+  local function update_activity()
+    for _, s in ipairs(M.sessions) do
+      if s.id == session_id then
+        s.last_activity = os.time()
+        break
+      end
+    end
+  end
+
   vim.api.nvim_buf_call(buf, function()
     job_id = vim.fn.termopen("claude --dangerously-skip-permissions " .. vim.fn.shellescape(prompt), {
+      on_stdout = function(_, data, _)
+        if data and #data > 0 then
+          vim.schedule(update_activity)
+        end
+      end,
+      on_stderr = function(_, data, _)
+        if data and #data > 0 then
+          vim.schedule(update_activity)
+        end
+      end,
       on_exit = function(_, code)
         vim.schedule(function()
           for i, s in ipairs(M.sessions) do
@@ -173,7 +183,6 @@ function M.create(prompt)
     state = "working",
     created_at = os.time(),
     last_activity = os.time(),
-    last_line_count = 0,
   }
 
   table.insert(M.sessions, session)
@@ -210,7 +219,7 @@ function M.open(session)
   local col = math.floor((vim.o.columns - width) / 2)
 
   local idle_time = os.time() - session.last_activity
-  local state_icon = idle_time > 3 and "" or "󰑮"
+  local state_icon = idle_time > 0 and "" or "󰑮"
 
   local win = vim.api.nvim_open_win(session.buf, true, {
     relative = "editor",
@@ -288,8 +297,8 @@ function M.pick()
     prompt = "Claude Sessions",
     format_item = function(s)
       local idle_time = os.time() - s.last_activity
-      local icon = idle_time > 3 and "" or "󰑮"
-      local state = idle_time > 3 and "idle" or "working"
+      local icon = idle_time > 0 and "" or "󰑮"
+      local state = idle_time > 0 and "waiting" or "working"
       local age = os.difftime(os.time(), s.created_at)
       local time_str = age < 60 and string.format("%ds", age)
         or age < 3600 and string.format("%dm", math.floor(age / 60))
@@ -348,7 +357,7 @@ function M.session_status(index)
   end
 
   local idle_time = os.time() - session.last_activity
-  local icon = idle_time > 3 and "" or spinner[M._spinner_idx]
+  local icon = idle_time > 0 and "" or spinner[M._spinner_idx]
   local short_prompt = session.prompt:sub(1, 20):gsub("%s+$", "")
   return string.format("󰚩 %s %d:%s", icon, index, short_prompt)
 end
@@ -364,8 +373,8 @@ function M.session_color(index)
   end
 
   local idle_time = os.time() - session.last_activity
-  if idle_time > 3 then
-    return { fg = "#f7768e" } -- Red when idle/stalled
+  if idle_time > 0 then
+    return { fg = "#f7768e" } -- Red when idle/needs input
   else
     return { fg = "#9ece6a" } -- Green when actively working
   end
