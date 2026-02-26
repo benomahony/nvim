@@ -5,7 +5,7 @@ for _, cmd in ipairs({ "W", "Wq", "WQ", "Qa", "QA", "Wqa", "WQa", "WQA", "Qwa", 
   end, { desc = "Quitting for fat fingers" })
 end
 -- Nice oily navigation
-vim.keymap.set("n", "-", "<CMD>Fyler<CR>", { desc = "Open parent directory" })
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
 -- Buffer picker
 vim.keymap.set("n", "<leader>bb", function()
@@ -49,6 +49,10 @@ vim.keymap.set("n", "<leader>cp", function()
   })
 end, { desc = "Run precommit" })
 
+vim.keymap.set("n", "<leader>tt", function()
+  require("snacks").terminal.toggle()
+end, { desc = "Toggle terminal" })
+
 vim.keymap.del("n", "<leader>:")
 
 vim.keymap.set("n", "yp", function()
@@ -60,8 +64,8 @@ vim.keymap.set("n", "yp", function()
   if filepath:match("^oil:///") then
     filepath = filepath:gsub("^oil:///", "")
   end
-  if filepath:match("fyler:///") then
-    filepath = filepath:gsub("fyler:///", "")
+  if filepath:match("^oil://") then
+    filepath = filepath:gsub("^oil://", "")
   end
   vim.fn.setreg("+", filepath)
   require("snacks").notify("📋 yanked path: " .. filepath, { title = "Yank Path" })
@@ -101,7 +105,7 @@ vim.keymap.set("n", "zg", add_word_to_vale_vocab, {
 })
 
 vim.keymap.set("n", "<leader>m", function()
-  if vim.bo.buftype ~= "" or vim.bo.filetype == "fyler" or vim.bo.filetype == "oil" then
+  if vim.bo.buftype ~= "" or vim.bo.filetype == "oil" then
     vim.cmd("enew")
   end
   vim.cmd("compiler precommit")
