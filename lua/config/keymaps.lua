@@ -38,6 +38,16 @@ end, { desc = "Split selection on character" })
 vim.keymap.set("i", "<M-3>", "#")
 
 
+vim.keymap.set("n", "<leader>cc", function()
+  vim.fn.jobstart({
+    "osascript",
+    "-e", 'tell application "Ghostty" to activate',
+    "-e", 'tell application "System Events" to keystroke "t" using {command down}',
+    "-e", 'delay 0.2',
+    "-e", 'tell application "System Events" to keystroke "claude\n"',
+  })
+end, { desc = "Open Claude Code in new tab" })
+
 vim.keymap.set("n", "<leader>cp", function()
   require("snacks").terminal.toggle("pre-commit run", {
     auto_close = false,
