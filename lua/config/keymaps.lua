@@ -37,18 +37,20 @@ end, { desc = "Split selection on character" })
 -- Fix type "#" on terminal (ghostty & wezterm both have this issue)
 vim.keymap.set("i", "<M-3>", "#")
 
-
 vim.keymap.set("n", "<leader>cc", function()
   local cwd = vim.fn.getcwd()
-  local script = string.format([[
+  local script = string.format(
+    [[
     tell application "Ghostty" to activate
     tell application "System Events"
       keystroke "t" using {command down}
       delay 0.3
-      keystroke "cd '%s' && claude"
+      keystroke "cd '%s' && claude --dangerously-skip-permissions"
       key code 36
     end tell
-  ]], cwd)
+  ]],
+    cwd
+  )
   vim.fn.jobstart({ "osascript", "-e", script })
 end, { desc = "Open Claude Code in new tab" })
 

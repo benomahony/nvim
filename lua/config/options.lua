@@ -11,3 +11,4 @@ vim.opt.wrap = true
 vim.opt.relativenumber = false
 vim.opt.smartcase = true
 vim.opt.autoread = true
+vim.opt.exrc = true
