@@ -39,13 +39,17 @@ vim.keymap.set("i", "<M-3>", "#")
 
 
 vim.keymap.set("n", "<leader>cc", function()
-  vim.fn.jobstart({
-    "osascript",
-    "-e", 'tell application "Ghostty" to activate',
-    "-e", 'tell application "System Events" to keystroke "t" using {command down}',
-    "-e", 'delay 0.2',
-    "-e", 'tell application "System Events" to keystroke "claude\n"',
-  })
+  local cwd = vim.fn.getcwd()
+  local script = string.format([[
+    tell application "Ghostty" to activate
+    tell application "System Events"
+      keystroke "t" using {command down}
+      delay 0.3
+      keystroke "cd '%s' && claude"
+      key code 36
+    end tell
+  ]], cwd)
+  vim.fn.jobstart({ "osascript", "-e", script })
 end, { desc = "Open Claude Code in new tab" })
 
 vim.keymap.set("n", "<leader>cp", function()
