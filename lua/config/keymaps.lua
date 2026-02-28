@@ -108,8 +108,9 @@ local function add_word_to_vale_vocab()
     return
   end
 
-  local command = string.format("echo '%s' >> %s", word, vim.fn.shellescape(vocab_file_path))
-  vim.fn.system(command)
+  local lines = vim.fn.readfile(vocab_file_path)
+  table.insert(lines, word)
+  vim.fn.writefile(lines, vocab_file_path)
 
   vim.notify('Appended "' .. word .. '" to vocabulary.')
 end
@@ -146,7 +147,7 @@ vim.keymap.set({ "n", "v" }, "<leader>cu", function()
   }, function(choice)
     if choice then
       require("conform").format({
-        formatters = { "pyupgrade" },
+        formatters = { { "pyupgrade", args = { choice.arg } } },
         lsp_format = "never",
         async = false,
       })

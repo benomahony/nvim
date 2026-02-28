@@ -6,6 +6,10 @@ return {
     opts = function(_, opts)
       opts = opts or {}
       opts.servers = opts.servers or {}
+      opts.servers["*"] = opts.servers["*"] or {}
+      opts.servers["*"].keys = opts.servers["*"].keys or {}
+      table.insert(opts.servers["*"].keys, { "<leader>cc", false })
+
 
       opts.diagnostics = vim.tbl_deep_extend("force", opts.diagnostics or {}, {
         virtual_text = false,
