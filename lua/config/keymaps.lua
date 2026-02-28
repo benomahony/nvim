@@ -45,7 +45,7 @@ vim.keymap.set("n", "<leader>cc", function()
     tell application "System Events"
       keystroke "t" using {command down}
       delay 0.3
-      keystroke "cd '%s' && claude --dangerously-skip-permissions"
+      keystroke "claude --dangerously-skip-permissions"
       key code 36
     end tell
   ]],
