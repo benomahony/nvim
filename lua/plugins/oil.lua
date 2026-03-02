@@ -9,7 +9,13 @@ return {
         nested = true,
         callback = function()
           if vim.fn.argc() == 0 and vim.api.nvim_buf_get_name(0) == "" then
-            vim.cmd("Oil")
+            local ok, p = pcall(require, "persistence")
+            local s = ok and p.current()
+            if s and vim.fn.filereadable(s) == 1 then
+              p.load()
+            else
+              vim.cmd("Oil")
+            end
           end
         end,
       })
@@ -25,7 +31,8 @@ return {
     },
   },
   {
-    "benomahony/oil-git.nvim",
+    dir = "~/Code/open_source/oil-git.nvim",
+    name = "oil-git.nvim",
     dependencies = { "stevearc/oil.nvim" },
   },
 }

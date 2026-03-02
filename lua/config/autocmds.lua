@@ -3,6 +3,13 @@
 
 vim.api.nvim_create_autocmd("InsertEnter", { pattern = "*", command = "normal! zz" })
 
+vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+  pattern = "*",
+  callback = function()
+    vim.cmd("checktime")
+  end,
+})
+
 local group = vim.api.nvim_create_augroup("zig_build_quickfix", { clear = true })
 
 local function setup_zig_make(bufnr)
