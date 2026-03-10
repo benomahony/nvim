@@ -12,7 +12,11 @@ return {
             local ok, p = pcall(require, "persistence")
             local s = ok and p.current()
             if s and vim.fn.filereadable(s) == 1 then
+              local buf = vim.api.nvim_get_current_buf()
               p.load()
+              if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_get_name(buf) == "" then
+                vim.api.nvim_buf_delete(buf, { force = true })
+              end
             else
               vim.cmd("Oil")
             end
